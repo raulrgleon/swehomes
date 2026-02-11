@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import MessageUI
 
 struct PropertyDetailView: View {
     let property: Property
@@ -18,6 +19,10 @@ struct PropertyDetailView: View {
         MockData.agents.first { $0.id == property.agentId }
     }
 
+    private var similarProperties: [Property] {
+        PropertyRepository.shared.similarProperties(to: property)
+    }
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
@@ -25,11 +30,11 @@ struct PropertyDetailView: View {
                 priceAndStatsSection
                 descriptionSection
                 amenitiesSection
-                if let agent = agent {
-                    agentCard(agent)
-                }
                 mapPreviewSection
                 ctaButtonsSection
+                if !similarProperties.isEmpty {
+                    similarPropertiesSection
+                }
             }
             .padding(.bottom, 32)
         }
@@ -38,6 +43,8 @@ struct PropertyDetailView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
+                    let generator = UIImpactFeedbackGenerator(style: .light)
+                    generator.impactOccurred()
                     appState.toggleSaved(property.id)
                 } label: {
                     Image(systemName: appState.isSaved(property.id) ? "heart.fill" : "heart")
@@ -49,7 +56,23 @@ struct PropertyDetailView: View {
 
     private var heroSection: some View {
         VStack(spacing: 0) {
-            if let name = property.imageName {
+            if let names = property.imageNames, !names.isEmpty {
+                TabView(selection: $selectedImageIndex) {
+                    ForEach(Array(names.enumerated()), id: \.offset) { index, name in
+                        Image(name)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(height: 280)
+                            .clipped()
+                            .tag(index)
+                    }
+                }
+                .tabViewStyle(.page(indexDisplayMode: .automatic))
+                .frame(height: 280)
+                .overlay(alignment: .bottom) {
+                    pageIndicator(count: names.count)
+                }
+            } else if let name = property.imageName {
                 Image(name)
                     .resizable()
                     .scaledToFill()
@@ -166,6 +189,7 @@ struct PropertyDetailView: View {
         case "storage": return "archivebox.fill"
         case "garden": return "leaf.fill"
         case "garage": return "car.fill"
+        case "2-car garage": return "car.2.fill"
         case "ac": return "snowflake"
         case "fireplace": return "flame.fill"
         case "water view": return "water.waves"
@@ -176,40 +200,22 @@ struct PropertyDetailView: View {
         case "bike storage": return "bicycle"
         case "elevator": return "arrow.up.arrow.down"
         case "wine cellar": return "wineglass.fill"
+        case "loading": return "shippingbox.fill"
+        case "storefront": return "storefront.fill"
+        case "24h security": return "lock.shield.fill"
+        case "kitchen": return "fork.knife"
+        case "utilities": return "bolt.fill"
+        case "highway access": return "road.lanes"
+        case "paved street": return "road.lanes.curved"
+        case "water": return "drop.fill"
+        case "electricity": return "bolt.fill"
+        case "easy access": return "arrow.triangle.turn.up.right.diamond.fill"
+        case "lake": return "water.waves"
+        case "fenced": return "rectangle.3.group.fill"
+        case "pool": return "figure.pool.swim"
+        case "lobby": return "door.garage.closed"
         default: return "checkmark.circle.fill"
         }
-    }
-
-    private func agentCard(_ agent: Agent) -> some View {
-        HStack(spacing: 16) {
-            Text("👤")
-                .font(.system(size: 44))
-                .frame(width: 56, height: 56)
-                .background(Color(.tertiarySystemBackground))
-                .clipShape(Circle())
-            VStack(alignment: .leading, spacing: 4) {
-                Text(agent.name)
-                    .font(.headline)
-                HStack(spacing: 4) {
-                    Image(systemName: "star.fill")
-                        .font(.caption)
-                        .foregroundStyle(.yellow)
-                    Text(String(format: "%.1f", agent.rating))
-                        .font(.subheadline)
-                    Text("(\(agent.reviewCount) reviews)")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
-                Text(agent.company)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-            Spacer()
-        }
-        .padding()
-        .background(Color(.secondarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 16))
-        .padding(.horizontal)
     }
 
     private var mapPreviewSection: some View {
@@ -221,20 +227,82 @@ struct PropertyDetailView: View {
                 .frame(height: 200)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
                 .padding(.horizontal)
+            Button {
+                openInMaps()
+            } label: {
+                Label("Open in Maps", systemImage: "map.fill")
+                    .font(.subheadline.weight(.medium))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+            }
+            .buttonStyle(.bordered)
+            .padding(.horizontal)
         }
     }
 
     private var ctaButtonsSection: some View {
-        VStack(spacing: 12) {
+        VStack(alignment: .leading, spacing: 16) {
+            if let agent = agent {
+                HStack(spacing: 12) {
+                    Text("👤")
+                        .font(.system(size: 36))
+                        .frame(width: 48, height: 48)
+                        .background(Color(.tertiarySystemBackground))
+                        .clipShape(Circle())
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(agent.name)
+                            .font(.headline)
+                        HStack(spacing: 4) {
+                            Image(systemName: "star.fill")
+                                .font(.caption2)
+                                .foregroundStyle(.yellow)
+                            Text(String(format: "%.1f", agent.rating))
+                                .font(.subheadline)
+                            Text("(\(agent.reviewCount) reviews)")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        Text(agent.company)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer(minLength: 0)
+                }
+                .padding()
+                .background(Color(.secondarySystemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+            }
+
+            if let agent = agent, let url = URL(string: "tel:\(agent.phone.filter(\.isNumber))") {
+                Button {
+                    UIApplication.shared.open(url)
+                } label: {
+                    Label("Call Agent", systemImage: "phone.fill")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(AppTheme.accent)
+            }
+            if let agent = agent {
+                Button {
+                    openMessage(agent: agent)
+                } label: {
+                    Label("Contact Agent", systemImage: "message.fill")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(AppTheme.accent)
+            }
             Button {
-                // Contact Agent - mock
+                shareProperty()
             } label: {
-                Label("Contact Agent", systemImage: "message.fill")
+                Label("Share", systemImage: "square.and.arrow.up")
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
             }
-            .buttonStyle(.borderedProminent)
-            .tint(.blue)
+            .buttonStyle(.bordered)
             Button {
                 // Schedule Tour - mock
             } label: {
@@ -247,8 +315,114 @@ struct PropertyDetailView: View {
         .padding(.horizontal)
     }
 
+    private func pageIndicator(count: Int) -> some View {
+        HStack(spacing: 6) {
+            ForEach(0..<count, id: \.self) { i in
+                Circle()
+                    .fill(selectedImageIndex == i ? Color.white : Color.white.opacity(0.5))
+                    .frame(width: 6, height: 6)
+            }
+        }
+        .padding(.bottom, 12)
+    }
+
+    private func openMessage(agent: Agent) {
+        let body = "Hi \(agent.name), I'm interested in \(property.title) (\(property.fullAddress)). Could you provide more information?"
+        let phone = agent.phone.filter(\.isNumber)
+        if MFMessageComposeViewController.canSendText() {
+            let vc = MFMessageComposeViewController()
+            vc.recipients = [phone]
+            vc.body = body
+            vc.messageComposeDelegate = MessageComposeDelegate.shared
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let root = windowScene.windows.first?.rootViewController {
+                root.present(vc, animated: true)
+            }
+        } else if let url = URL(string: "sms:\(phone)") {
+            UIApplication.shared.open(url)
+        }
+    }
+
+    private func openInMaps() {
+        let coord = property.coordinate
+        let address = property.fullAddress.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        let url = URL(string: "maps://?ll=\(coord.latitude),\(coord.longitude)&q=\(address)")!
+        UIApplication.shared.open(url)
+    }
+
+    private func shareProperty() {
+        let text = "\(property.title) - \(property.priceFormatted)\n\(property.fullAddress)"
+        let av = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let root = windowScene.windows.first?.rootViewController {
+            root.present(av, animated: true)
+        }
+    }
+
+    private var similarPropertiesSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Similar Properties")
+                .font(.headline)
+                .padding(.horizontal)
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 16) {
+                    ForEach(similarProperties) { p in
+                        NavigationLink {
+                            PropertyDetailView(property: p)
+                                .environmentObject(appState)
+                        } label: {
+                            similarCard(p)
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.horizontal)
+            }
+        }
+    }
+
+    private func similarCard(_ p: Property) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Group {
+                if let name = p.imageName {
+                    Image(name)
+                        .resizable()
+                        .scaledToFill()
+                } else {
+                    HeroPlaceholderView(styleIndex: p.imageStyleIndex)
+                }
+            }
+            .frame(width: 160, height: 100)
+            .clipped()
+            VStack(alignment: .leading, spacing: 2) {
+                Text(p.priceFormatted)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                Text(p.fullAddress)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(8)
+        }
+        .frame(width: 160)
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
     private func formatBaths(_ n: Double) -> String {
         n == floor(n) ? "\(Int(n))" : String(format: "%.1f", n)
+    }
+}
+
+// MARK: - Message Delegate
+
+private final class MessageComposeDelegate: NSObject, MFMessageComposeViewControllerDelegate {
+    static let shared = MessageComposeDelegate()
+
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true)
     }
 }
 

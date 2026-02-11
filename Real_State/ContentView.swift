@@ -34,7 +34,7 @@ struct ContentView: View {
                 }
                 .tag(3)
         }
-        .tint(.blue)
+        .tint(AppTheme.accent)
         .environmentObject(appState)
     }
 }

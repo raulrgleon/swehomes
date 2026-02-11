@@ -26,8 +26,11 @@ struct MapPreviewView: View {
     var body: some View {
         Map(position: $position, selection: $selectedPropertyId) {
             ForEach(properties) { property in
-                Annotation(property.address, coordinate: property.coordinate) {
-                    MapPinView(isSelected: selectedPropertyId == property.id) {
+                Annotation(property.title, coordinate: property.coordinate) {
+                    MapPinView(
+                        isSelected: selectedPropertyId == property.id,
+                        category: property.category
+                    ) {
                         selectedPropertyId = property.id
                     }
                 }
@@ -43,13 +46,23 @@ struct MapPreviewView: View {
 
 private struct MapPinView: View {
     let isSelected: Bool
+    let category: PropertyCategory
     let action: () -> Void
+
+    private var pinColor: Color {
+        if isSelected { return AppTheme.hotOrange }
+        switch category {
+        case .residential: return .blue
+        case .commercial: return .purple
+        case .land: return .green
+        }
+    }
 
     var body: some View {
         Button(action: action) {
             Image(systemName: "mappin.circle.fill")
                 .font(.title)
-                .foregroundStyle(isSelected ? .red : .blue)
+                .foregroundStyle(pinColor)
                 .scaleEffect(isSelected ? 1.2 : 1.0)
                 .animation(.easeInOut(duration: 0.2), value: isSelected)
         }

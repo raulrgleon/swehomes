@@ -8,8 +8,16 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @EnvironmentObject var appState: AppState
+    @AppStorage("isLoggedIn") private var isLoggedIn = true
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = true
+    
     private let profile = MockData.userProfile
     private let settings = MockData.settingsItems
+    
+    private var recentSearches: [String] {
+        !appState.searchHistory.isEmpty ? appState.searchHistory : profile.recentlySearchedLocations
+    }
 
     var body: some View {
         NavigationStack {
@@ -18,6 +26,7 @@ struct ProfileView: View {
                     headerSection
                     recentSearchesSection
                     settingsSection
+                    logoutSection
                 }
                 .padding(.bottom, 32)
             }
@@ -56,7 +65,7 @@ struct ProfileView: View {
                 .font(.headline)
                 .padding(.horizontal)
             VStack(spacing: 0) {
-                ForEach(Array(profile.recentlySearchedLocations.enumerated()), id: \.offset) { _, location in
+                ForEach(Array(recentSearches.enumerated()), id: \.offset) { _, location in
                     HStack {
                         Image(systemName: "magnifyingglass")
                             .foregroundStyle(.secondary)
@@ -71,7 +80,7 @@ struct ProfileView: View {
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
                     .background(Color(.secondarySystemGroupedBackground))
-                    if location != profile.recentlySearchedLocations.last {
+                    if location != recentSearches.last {
                         Divider()
                             .padding(.leading, 40)
                     }
@@ -91,7 +100,7 @@ struct ProfileView: View {
                 ForEach(settings) { item in
                     HStack {
                         Image(systemName: item.systemImage)
-                            .foregroundStyle(.blue)
+                            .foregroundStyle(AppTheme.accent)
                             .frame(width: 28, alignment: .center)
                         Text(item.title)
                             .font(.subheadline)
@@ -108,13 +117,52 @@ struct ProfileView: View {
                             .padding(.leading, 44)
                     }
                 }
+                Button {
+                    hasSeenOnboarding = false
+                } label: {
+                    HStack {
+                        Image(systemName: "play.rectangle.fill")
+                            .foregroundStyle(AppTheme.accent)
+                            .frame(width: 28, alignment: .center)
+                        Text("View onboarding again")
+                            .font(.subheadline)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(.tertiary)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(Color(.secondarySystemGroupedBackground))
+                    .foregroundStyle(.primary)
+                }
+                .buttonStyle(.plain)
             }
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
+        .padding(.horizontal)
+    }
+
+    private var logoutSection: some View {
+        Button {
+            isLoggedIn = false
+        } label: {
+            HStack {
+                Image(systemName: "rectangle.portrait.and.arrow.right")
+                    .foregroundStyle(.red)
+                Text("Log out")
+                    .font(.headline)
+                    .foregroundStyle(.red)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 14)
+        }
+        .buttonStyle(.plain)
         .padding(.horizontal)
     }
 }
 
 #Preview {
     ProfileView()
+        .environmentObject(AppState())
 }

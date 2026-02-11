@@ -58,6 +58,8 @@ struct Property: Identifiable, Equatable, Hashable {
     var imageStyleIndex: Int
     /// Nombre del asset de imagen (ej: "PropertyHouse"). Si nil, se usa placeholder.
     var imageName: String? = nil
+    /// Múltiples imágenes para carrusel. Si nil, se usa imageName. Si vacío, placeholder.
+    var imageNames: [String]? = nil
 
     var fullAddress: String { "\(address), \(city), \(state)" }
     var priceFormatted: String {

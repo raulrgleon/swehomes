@@ -128,27 +128,46 @@ struct ExploreView: View {
     private var featuredSection: some View {
         HotDealsCarouselView(
             properties: viewModel.hotDealsProperties(properties),
-            onSelect: { selectedProperty = $0 },
+            onSelect: { property in
+                if searchBarOnTop, !viewModel.searchText.isEmpty {
+                    appState.addSearchHistory(viewModel.searchText)
+                }
+                selectedProperty = property
+            },
             cardContent: { featuredCard($0) }
         )
     }
 
     private func featuredCard(_ property: Property) -> some View {
         Button {
+            if searchBarOnTop, !viewModel.searchText.isEmpty {
+                appState.addSearchHistory(viewModel.searchText)
+            }
             selectedProperty = property
         } label: {
             VStack(alignment: .leading, spacing: 0) {
-                Group {
-                    if let name = property.imageName {
-                        Image(name)
-                            .resizable()
-                            .scaledToFill()
-                    } else {
-                        HeroPlaceholderView(styleIndex: property.imageStyleIndex)
+                ZStack(alignment: .topLeading) {
+                    Group {
+                        if let name = property.imageName {
+                            Image(name)
+                                .resizable()
+                                .scaledToFill()
+                        } else {
+                            HeroPlaceholderView(styleIndex: property.imageStyleIndex)
+                        }
                     }
+                    .frame(width: 280, height: 160)
+                    .clipped()
+                    Text("🔥 Hot")
+                        .font(.caption2)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(AppTheme.hotOrange)
+                        .clipShape(Capsule())
+                        .padding(8)
                 }
-                .frame(width: 280, height: 160)
-                .clipped()
                 VStack(alignment: .leading, spacing: 4) {
                     Text(property.priceFormatted)
                         .font(.headline)
@@ -188,7 +207,12 @@ struct ExploreView: View {
                         PropertyCardView(
                             property: property,
                             isSaved: appState.isSaved(property.id),
-                            onTap: { selectedProperty = property },
+                            onTap: {
+                                if searchBarOnTop, !viewModel.searchText.isEmpty {
+                                    appState.addSearchHistory(viewModel.searchText)
+                                }
+                                selectedProperty = property
+                            },
                             onFavorite: { appState.toggleSaved(property.id) }
                         )
                         .padding(.horizontal)
@@ -225,6 +249,7 @@ private struct HotDealsCarouselView<Card: View>: View {
                 .font(.title2)
                 .fontWeight(.semibold)
                 .padding(.horizontal)
+                .accessibilityAddTraits(.isHeader)
 
             if properties.isEmpty {
                 Color.clear.frame(height: 1)

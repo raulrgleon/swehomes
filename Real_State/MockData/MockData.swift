@@ -60,7 +60,8 @@ enum MockData {
             isNewListing: true,
             isOpenHouse: true,
             imageStyleIndex: 0,
-            imageName: "PropertyHouse"
+            imageName: "PropertyHouse",
+            imageNames: ["PropertyHouse", "PropertyHouse", "PropertyHouse"]
         ),
         Property(
             id: UUID(uuidString: "b2c3d4e5-0002-4000-8000-000000000002")!,
@@ -82,7 +83,8 @@ enum MockData {
             isNewListing: false,
             isOpenHouse: false,
             imageStyleIndex: 1,
-            imageName: "PropertyHouse"
+            imageName: "PropertyHouse",
+            imageNames: ["PropertyHouse", "PropertyHouse", "PropertyHouse"]
         ),
         Property(
             id: UUID(uuidString: "b2c3d4e5-0003-4000-8000-000000000003")!,
@@ -104,7 +106,8 @@ enum MockData {
             isNewListing: true,
             isOpenHouse: false,
             imageStyleIndex: 2,
-            imageName: "PropertyHouse"
+            imageName: "PropertyHouse",
+            imageNames: ["PropertyHouse", "PropertyHouse", "PropertyHouse"]
         ),
         Property(
             id: UUID(uuidString: "b2c3d4e5-0004-4000-8000-000000000004")!,
@@ -126,7 +129,8 @@ enum MockData {
             isNewListing: false,
             isOpenHouse: true,
             imageStyleIndex: 3,
-            imageName: "PropertyHouse"
+            imageName: "PropertyHouse",
+            imageNames: ["PropertyHouse", "PropertyHouse", "PropertyHouse"]
         ),
         Property(
             id: UUID(uuidString: "b2c3d4e5-0005-4000-8000-000000000005")!,
@@ -148,7 +152,8 @@ enum MockData {
             isNewListing: true,
             isOpenHouse: false,
             imageStyleIndex: 4,
-            imageName: "PropertyHouse"
+            imageName: "PropertyHouse",
+            imageNames: ["PropertyHouse", "PropertyHouse", "PropertyHouse"]
         ),
         // --- 5 COMERCIALES ---
         Property(
@@ -171,7 +176,8 @@ enum MockData {
             isNewListing: true,
             isOpenHouse: false,
             imageStyleIndex: 0,
-            imageName: "PropertyHouse"
+            imageName: "PropertyHouse",
+            imageNames: ["PropertyHouse", "PropertyHouse", "PropertyHouse"]
         ),
         Property(
             id: UUID(uuidString: "b2c3d4e5-0007-4000-8000-000000000007")!,
@@ -193,7 +199,8 @@ enum MockData {
             isNewListing: false,
             isOpenHouse: false,
             imageStyleIndex: 1,
-            imageName: "PropertyHouse"
+            imageName: "PropertyHouse",
+            imageNames: ["PropertyHouse", "PropertyHouse", "PropertyHouse"]
         ),
         Property(
             id: UUID(uuidString: "b2c3d4e5-0008-4000-8000-000000000008")!,
@@ -215,7 +222,8 @@ enum MockData {
             isNewListing: false,
             isOpenHouse: false,
             imageStyleIndex: 2,
-            imageName: "PropertyHouse"
+            imageName: "PropertyHouse",
+            imageNames: ["PropertyHouse", "PropertyHouse", "PropertyHouse"]
         ),
         Property(
             id: UUID(uuidString: "b2c3d4e5-0009-4000-8000-000000000009")!,
@@ -237,7 +245,8 @@ enum MockData {
             isNewListing: true,
             isOpenHouse: false,
             imageStyleIndex: 3,
-            imageName: "PropertyHouse"
+            imageName: "PropertyHouse",
+            imageNames: ["PropertyHouse", "PropertyHouse", "PropertyHouse"]
         ),
         Property(
             id: UUID(uuidString: "b2c3d4e5-0010-4000-8000-000000000010")!,
@@ -259,7 +268,8 @@ enum MockData {
             isNewListing: false,
             isOpenHouse: false,
             imageStyleIndex: 4,
-            imageName: "PropertyHouse"
+            imageName: "PropertyHouse",
+            imageNames: ["PropertyHouse", "PropertyHouse", "PropertyHouse"]
         ),
         // --- 5 TERRENOS ---
         Property(
@@ -282,7 +292,8 @@ enum MockData {
             isNewListing: true,
             isOpenHouse: false,
             imageStyleIndex: 0,
-            imageName: "PropertyHouse"
+            imageName: "PropertyHouse",
+            imageNames: ["PropertyHouse", "PropertyHouse", "PropertyHouse"]
         ),
         Property(
             id: UUID(uuidString: "b2c3d4e5-0012-4000-8000-000000000012")!,
@@ -304,7 +315,8 @@ enum MockData {
             isNewListing: false,
             isOpenHouse: false,
             imageStyleIndex: 1,
-            imageName: "PropertyHouse"
+            imageName: "PropertyHouse",
+            imageNames: ["PropertyHouse", "PropertyHouse", "PropertyHouse"]
         ),
         Property(
             id: UUID(uuidString: "b2c3d4e5-0013-4000-8000-000000000013")!,
@@ -326,7 +338,8 @@ enum MockData {
             isNewListing: true,
             isOpenHouse: false,
             imageStyleIndex: 2,
-            imageName: "PropertyHouse"
+            imageName: "PropertyHouse",
+            imageNames: ["PropertyHouse", "PropertyHouse", "PropertyHouse"]
         ),
         Property(
             id: UUID(uuidString: "b2c3d4e5-0014-4000-8000-000000000014")!,
@@ -348,7 +361,8 @@ enum MockData {
             isNewListing: false,
             isOpenHouse: false,
             imageStyleIndex: 3,
-            imageName: "PropertyHouse"
+            imageName: "PropertyHouse",
+            imageNames: ["PropertyHouse", "PropertyHouse", "PropertyHouse"]
         ),
         Property(
             id: UUID(uuidString: "b2c3d4e5-0015-4000-8000-000000000015")!,

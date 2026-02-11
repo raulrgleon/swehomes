@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import UIKit
 
 struct PropertyCardView: View {
     let property: Property
@@ -38,8 +39,12 @@ struct PropertyCardView: View {
                         }
                     }
                     .padding(8)
-                    Button(action: onFavorite) {
+                    Button(action: {
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                        onFavorite()
+                    }) {
                         Image(systemName: isSaved ? "heart.fill" : "heart")
+                            .accessibilityLabel(isSaved ? "Remove from saved" : "Save property")
                             .font(.title3)
                             .foregroundStyle(isSaved ? .red : .white)
                             .shadow(color: .black.opacity(0.3), radius: 1, x: 0, y: 1)
