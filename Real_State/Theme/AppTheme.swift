@@ -15,6 +15,16 @@ struct ScaleButtonStyle: ButtonStyle {
     }
 }
 
+/// Estilo para filas de Settings con feedback visual al tocar
+struct SettingsRowButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .contentShape(Rectangle())
+            .background(configuration.isPressed ? Color(.systemGray5) : Color.clear)
+            .animation(.easeInOut(duration: 0.15), value: configuration.isPressed)
+    }
+}
+
 
 enum AppTheme {
     /// SWE Homes brand yellow (from swehomes.com)

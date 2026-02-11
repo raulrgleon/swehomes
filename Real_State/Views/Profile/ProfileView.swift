@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ProfileView: View {
     @EnvironmentObject var appState: AppState
@@ -116,22 +117,30 @@ struct ProfileView: View {
                                         .foregroundStyle(.tertiary)
                                 }
                             }
-                            .buttonStyle(.plain)
+                            .buttonStyle(SettingsRowButtonStyle())
+                            .simultaneousGesture(TapGesture().onEnded {
+                                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            })
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
                             .background(Color(.secondarySystemGroupedBackground))
                         } else {
-                            HStack {
-                                Image(systemName: item.systemImage)
-                                    .foregroundStyle(AppTheme.accent)
-                                    .frame(width: 28, alignment: .center)
-                                Text(item.title)
-                                    .font(.subheadline)
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .font(.caption)
-                                    .foregroundStyle(.tertiary)
+                            Button {
+                                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                            } label: {
+                                HStack {
+                                    Image(systemName: item.systemImage)
+                                        .foregroundStyle(AppTheme.accent)
+                                        .frame(width: 28, alignment: .center)
+                                    Text(item.title)
+                                        .font(.subheadline)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .font(.caption)
+                                        .foregroundStyle(.tertiary)
+                                }
                             }
+                            .buttonStyle(SettingsRowButtonStyle())
                             .padding(.horizontal, 16)
                             .padding(.vertical, 12)
                             .background(Color(.secondarySystemGroupedBackground))
@@ -143,6 +152,7 @@ struct ProfileView: View {
                     }
                 }
                 Button {
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
                     hasSeenOnboarding = false
                 } label: {
                     HStack {
@@ -161,7 +171,7 @@ struct ProfileView: View {
                     .background(Color(.secondarySystemGroupedBackground))
                     .foregroundStyle(.primary)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(SettingsRowButtonStyle())
             }
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
