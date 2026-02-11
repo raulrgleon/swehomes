@@ -11,7 +11,6 @@ struct ProfileView: View {
     @EnvironmentObject var appState: AppState
     @AppStorage("isLoggedIn") private var isLoggedIn = true
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = true
-    
     private let profile = MockData.userProfile
     private let settings = MockData.settingsItems
     
@@ -98,20 +97,45 @@ struct ProfileView: View {
                 .padding(.horizontal)
             VStack(spacing: 0) {
                 ForEach(settings) { item in
-                    HStack {
-                        Image(systemName: item.systemImage)
-                            .foregroundStyle(AppTheme.accent)
-                            .frame(width: 28, alignment: .center)
-                        Text(item.title)
-                            .font(.subheadline)
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .font(.caption)
-                            .foregroundStyle(.tertiary)
+                    Group {
+                        if item.title == "Notifications" {
+                            NavigationLink {
+                                NotificationsSettingsView()
+                            } label: {
+                                HStack {
+                                    Image(systemName: item.systemImage)
+                                        .foregroundStyle(AppTheme.accent)
+                                        .frame(width: 28, alignment: .center)
+                                    Text(item.title)
+                                        .font(.subheadline)
+                                        .foregroundStyle(.primary)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .font(.caption)
+                                        .foregroundStyle(.tertiary)
+                                }
+                            }
+                            .buttonStyle(.plain)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .background(Color(.secondarySystemGroupedBackground))
+                        } else {
+                            HStack {
+                                Image(systemName: item.systemImage)
+                                    .foregroundStyle(AppTheme.accent)
+                                    .frame(width: 28, alignment: .center)
+                                Text(item.title)
+                                    .font(.subheadline)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption)
+                                    .foregroundStyle(.tertiary)
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 12)
+                            .background(Color(.secondarySystemGroupedBackground))
+                        }
                     }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
-                    .background(Color(.secondarySystemGroupedBackground))
                     if item.id != settings.last?.id {
                         Divider()
                             .padding(.leading, 44)
