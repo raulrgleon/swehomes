@@ -13,9 +13,17 @@ struct PropertyDetailView: View {
     let property: Property
     @EnvironmentObject var appState: AppState
     @State private var selectedImageIndex = 0
+    @State private var isFullscreenImagePresented = false
+    @State private var toastMessage: String?
     @Environment(\.dismiss) private var dismiss
 
     private let heroHeight: CGFloat = 340
+
+    private var fullscreenImageNames: [String]? {
+        if let names = property.imageNames, !names.isEmpty { return names }
+        if let name = property.imageName { return [name] }
+        return nil
+    }
 
     private var agent: Agent? {
         MockData.agents.first { $0.id == property.agentId }
@@ -42,12 +50,14 @@ struct PropertyDetailView: View {
         }
         .navigationTitle(property.title)
         .navigationBarTitleDisplayMode(.inline)
+        .toast(message: $toastMessage)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     let generator = UIImpactFeedbackGenerator(style: .light)
                     generator.impactOccurred()
                     appState.toggleSaved(property.id)
+                    toastMessage = appState.isSaved(property.id) ? "Saved to favorites" : "Removed from favorites"
                 } label: {
                     Image(systemName: appState.isSaved(property.id) ? "heart.fill" : "heart")
                         .foregroundStyle(appState.isSaved(property.id) ? .red : .primary)
@@ -66,9 +76,34 @@ struct PropertyDetailView: View {
             )
             .allowsHitTesting(false)
             pageIndicatorOverlay
+            if fullscreenImageNames != nil {
+                Image(systemName: "arrow.up.left.and.arrow.down.right")
+                    .font(.caption2)
+                    .foregroundStyle(.white.opacity(0.9))
+                    .padding(6)
+                    .background(.black.opacity(0.3), in: Circle())
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                    .padding(10)
+                    .allowsHitTesting(false)
+            }
         }
         .frame(height: heroHeight)
         .clipped()
+        .contentShape(Rectangle())
+        .onTapGesture {
+            if fullscreenImageNames != nil {
+                isFullscreenImagePresented = true
+            }
+        }
+        .fullScreenCover(isPresented: $isFullscreenImagePresented) {
+            if let names = fullscreenImageNames {
+                FullscreenImageView(
+                    imageNames: names,
+                    initialIndex: selectedImageIndex,
+                    isPresented: $isFullscreenImagePresented
+                )
+            }
+        }
     }
 
     @ViewBuilder
@@ -303,6 +338,7 @@ struct PropertyDetailView: View {
             if let agent = agent {
                 Button {
                     openMessage(agent: agent)
+                    toastMessage = "Opening Messages..."
                 } label: {
                     Label("Contact Agent", systemImage: "message.fill")
                         .frame(maxWidth: .infinity)
@@ -313,6 +349,7 @@ struct PropertyDetailView: View {
             }
             Button {
                 shareProperty()
+                toastMessage = "Property shared"
             } label: {
                 Label("Share", systemImage: "square.and.arrow.up")
                     .frame(maxWidth: .infinity)

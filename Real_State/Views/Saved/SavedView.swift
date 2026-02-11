@@ -10,6 +10,7 @@ import SwiftUI
 struct SavedView: View {
     @EnvironmentObject var appState: AppState
     @State private var selectedProperty: Property?
+    @State private var toastMessage: String?
     private let properties = MockData.properties
 
     private var savedList: [Property] {
@@ -27,6 +28,7 @@ struct SavedView: View {
             }
             .navigationTitle("SWE Homes")
             .navigationBarTitleDisplayMode(.inline)
+            .toast(message: $toastMessage)
             .navigationDestination(item: $selectedProperty) { property in
                 PropertyDetailView(property: property)
             }
@@ -58,7 +60,10 @@ struct SavedView: View {
                         property: property,
                         isSaved: true,
                         onTap: { selectedProperty = property },
-                        onFavorite: { appState.toggleSaved(property.id) }
+                        onFavorite: {
+                            appState.toggleSaved(property.id)
+                            toastMessage = "Removed from favorites"
+                        }
                     )
                     .padding(.horizontal)
                 }

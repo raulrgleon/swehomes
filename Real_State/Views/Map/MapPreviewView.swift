@@ -55,6 +55,7 @@ private struct MapPinView: View {
     let category: PropertyCategory
     let price: String
     let action: () -> Void
+    @State private var pulseScale: CGFloat = 1.0
 
     private var pinColor: Color {
         if isSelected { return AppTheme.hotOrange }
@@ -79,11 +80,16 @@ private struct MapPinView: View {
                 Image(systemName: "mappin.circle.fill")
                     .font(.title2)
                     .foregroundStyle(pinColor)
-                    .scaleEffect(isSelected ? 1.15 : 1.0)
+                    .scaleEffect(isSelected ? 1.15 : pulseScale)
             }
             .animation(.easeInOut(duration: 0.2), value: isSelected)
         }
         .buttonStyle(.plain)
+        .onAppear {
+            withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
+                pulseScale = 1.2
+            }
+        }
     }
 }
 

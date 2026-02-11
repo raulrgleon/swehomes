@@ -19,6 +19,7 @@ struct ExploreView: View {
     @State private var selectedProperty: Property?
     @State private var selectedPropertyIdForMap: UUID?
     @State private var isFloatingSearchVisible = true
+    @State private var toastMessage: String?
     private let properties = MockData.properties
 
     var body: some View {
@@ -100,6 +101,7 @@ struct ExploreView: View {
             }
             .navigationTitle("SWE Homes")
             .navigationBarTitleDisplayMode(.inline)
+            .toast(message: $toastMessage)
             .sheet(isPresented: $viewModel.isFilterSheetPresented) {
                 FilterSheetView(viewModel: viewModel)
             }
@@ -233,7 +235,10 @@ struct ExploreView: View {
                                 }
                                 selectedProperty = property
                             },
-                            onFavorite: { appState.toggleSaved(property.id) }
+                            onFavorite: {
+                                appState.toggleSaved(property.id)
+                                toastMessage = appState.isSaved(property.id) ? "Saved to favorites" : "Removed from favorites"
+                            }
                         )
                         .padding(.horizontal)
                     }
@@ -273,28 +278,37 @@ private struct HotDealsCarouselView<Card: View>: View {
             if properties.isEmpty {
                 Color.clear.frame(height: 1)
             } else {
-                ScrollViewReader { proxy in
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 16) {
-                            ForEach(Array(properties.enumerated()), id: \.element.id) { index, property in
-                                Button {
-                                    onSelect(property)
-                                } label: {
-                                    cardContent(property)
+                GeometryReader { geo in
+                    let width = geo.size.width
+                    let cardWidth: CGFloat = 280
+                    let spacing: CGFloat = 16
+                    let centerPadding = max(0, (width - cardWidth) / 2 - spacing / 2)
+                    ScrollViewReader { proxy in
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: spacing) {
+                                ForEach(Array(properties.enumerated()), id: \.element.id) { index, property in
+                                    Button {
+                                        onSelect(property)
+                                    } label: {
+                                        cardContent(property)
+                                    }
+                                    .buttonStyle(.plain)
+                                    .id(index)
                                 }
-                                .buttonStyle(.plain)
-                                .id(index)
                             }
+                            .padding(.leading, centerPadding)
+                            .padding(.trailing, centerPadding)
                         }
-                        .padding(.horizontal)
-                    }
-                    .onAppear {
-                        startCarousel(proxy: proxy)
-                    }
-                    .onDisappear {
-                        timer?.invalidate()
+                        .onAppear {
+                            proxy.scrollTo(0, anchor: .center)
+                            startCarousel(proxy: proxy)
+                        }
+                        .onDisappear {
+                            timer?.invalidate()
+                        }
                     }
                 }
+                .frame(height: 220)
             }
         }
     }
@@ -304,7 +318,7 @@ private struct HotDealsCarouselView<Card: View>: View {
         timer = Timer.scheduledTimer(withTimeInterval: 3.5, repeats: true) { _ in
             withAnimation(.easeInOut(duration: 0.5)) {
                 currentIndex = (currentIndex + 1) % max(1, properties.count)
-                proxy.scrollTo(currentIndex, anchor: .leading)
+                proxy.scrollTo(currentIndex, anchor: .center)
             }
         }
         timer?.tolerance = 0.3
