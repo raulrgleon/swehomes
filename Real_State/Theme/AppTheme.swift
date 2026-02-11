@@ -7,6 +7,15 @@
 
 import SwiftUI
 
+struct ScaleButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.97 : 1)
+            .animation(.easeInOut(duration: 0.15), value: configuration.isPressed)
+    }
+}
+
+
 enum AppTheme {
     /// SWE Homes brand yellow (from swehomes.com)
     static let accent = Color(red: 0.95, green: 0.85, blue: 0.0)
@@ -14,4 +23,8 @@ enum AppTheme {
     
     /// Hot Deals accent
     static let hotOrange = Color(red: 1.0, green: 0.45, blue: 0.2)
+    
+    /// Sombras suaves para tarjetas
+    static let cardShadow = Color.black.opacity(0.08)
+    static let cardShadowRadius: CGFloat = 12
 }

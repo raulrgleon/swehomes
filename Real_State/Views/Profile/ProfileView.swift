@@ -36,32 +36,33 @@ struct ProfileView: View {
     }
 
     private var headerSection: some View {
-        VStack(spacing: 12) {
-            Text(profile.avatarEmoji)
-                .font(.system(size: 72))
-                .frame(width: 100, height: 100)
-                .background(
-                    LinearGradient(
-                        colors: [.blue.opacity(0.3), .purple.opacity(0.3)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
+        VStack(spacing: 16) {
+            ZStack {
+                Circle()
+                    .fill(
+                        LinearGradient(
+                            colors: [AppTheme.accent.opacity(0.4), AppTheme.accentDark.opacity(0.3)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
                     )
-                )
-                .clipShape(Circle())
-                .shadow(color: .black.opacity(0.08), radius: 8, x: 0, y: 4)
+                    .frame(width: 96, height: 96)
+                Text(profile.avatarEmoji)
+                    .font(.system(size: 48))
+            }
+            .shadow(color: AppTheme.cardShadow, radius: 10, x: 0, y: 4)
             Text(profile.name)
-                .font(.title2)
-                .fontWeight(.semibold)
+                .font(.appTitle2)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 24)
+        .padding(.vertical, 28)
         .background(Color(.secondarySystemGroupedBackground))
     }
 
     private var recentSearchesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Recently searched")
-                .font(.headline)
+                .font(.appHeadline)
                 .padding(.horizontal)
             VStack(spacing: 0) {
                 ForEach(Array(recentSearches.enumerated()), id: \.offset) { _, location in
@@ -93,7 +94,7 @@ struct ProfileView: View {
     private var settingsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Settings")
-                .font(.headline)
+                .font(.appHeadline)
                 .padding(.horizontal)
             VStack(spacing: 0) {
                 ForEach(settings) { item in

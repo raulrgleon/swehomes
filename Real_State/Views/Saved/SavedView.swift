@@ -34,15 +34,14 @@ struct SavedView: View {
     }
 
     private var emptyState: some View {
-        VStack(spacing: 20) {
-            Image(systemName: "heart.slash")
-                .font(.system(size: 60))
-                .foregroundStyle(.secondary)
-            Text("No saved properties")
-                .font(.title2)
-                .fontWeight(.semibold)
-            Text("Tap the heart on any listing to save it here.")
-                .font(.subheadline)
+        VStack(spacing: 24) {
+            Image(systemName: "heart.circle")
+                .font(.system(size: 72))
+                .foregroundStyle(AppTheme.accent.opacity(0.6))
+            Text("Your saved homes")
+                .font(.appTitle2)
+            Text("Save properties you love by tapping the heart. They'll appear here easy to find.")
+                .font(.appSubheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 40)

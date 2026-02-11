@@ -33,6 +33,8 @@
 		A1000024 /* PropertyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000024 /* PropertyRepository.swift */; };
 		A1000025 /* HotDealsNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000025 /* HotDealsNotificationService.swift */; };
 		A1000026 /* NotificationsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000026 /* NotificationsSettingsView.swift */; };
+		A1000027 /* AppTypography.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000027 /* AppTypography.swift */; };
+		A1000028 /* SkeletonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000028 /* SkeletonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +64,8 @@
 		A2000024 /* PropertyRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyRepository.swift; sourceTree = "<group>"; };
 		A2000025 /* HotDealsNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotDealsNotificationService.swift; sourceTree = "<group>"; };
 		A2000026 /* NotificationsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsSettingsView.swift; sourceTree = "<group>"; };
+		A2000027 /* AppTypography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTypography.swift; sourceTree = "<group>"; };
+		A2000028 /* SkeletonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonView.swift; sourceTree = "<group>"; };
 		A3000001 /* Real_State.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Real_State.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -122,6 +126,7 @@
 		A5000005 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				A5000019 /* Components */,
 				A5000007 /* Explore */,
 				A5000008 /* Filter */,
 				A5000009 /* PropertyDetail */,
@@ -133,6 +138,14 @@
 				A5000016 /* Login */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		A5000019 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A2000028 /* SkeletonView.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		A5000006 /* MockData */ = {
@@ -182,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				A2000022 /* AppTheme.swift */,
+				A2000027 /* AppTypography.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
@@ -339,6 +353,8 @@
 				A1000024 /* PropertyRepository.swift in Sources */,
 				A1000025 /* HotDealsNotificationService.swift in Sources */,
 				A1000026 /* NotificationsSettingsView.swift in Sources */,
+				A1000027 /* AppTypography.swift in Sources */,
+				A1000028 /* SkeletonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

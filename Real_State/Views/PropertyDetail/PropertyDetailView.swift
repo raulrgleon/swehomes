@@ -15,6 +15,8 @@ struct PropertyDetailView: View {
     @State private var selectedImageIndex = 0
     @Environment(\.dismiss) private var dismiss
 
+    private let heroHeight: CGFloat = 340
+
     private var agent: Agent? {
         MockData.agents.first { $0.id == property.agentId }
     }
@@ -26,7 +28,7 @@ struct PropertyDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                heroSection
+                heroSectionWithParallax
                 priceAndStatsSection
                 descriptionSection
                 amenitiesSection
@@ -54,59 +56,73 @@ struct PropertyDetailView: View {
         }
     }
 
-    private var heroSection: some View {
-        VStack(spacing: 0) {
-            if let names = property.imageNames, !names.isEmpty {
-                TabView(selection: $selectedImageIndex) {
-                    ForEach(Array(names.enumerated()), id: \.offset) { index, name in
-                        Image(name)
-                            .resizable()
-                            .scaledToFill()
-                            .frame(height: 280)
-                            .clipped()
-                            .tag(index)
-                    }
-                }
-                .tabViewStyle(.page(indexDisplayMode: .automatic))
-                .frame(height: 280)
-                .overlay(alignment: .bottom) {
-                    pageIndicator(count: names.count)
-                }
-            } else if let name = property.imageName {
-                Image(name)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(height: 280)
-                    .clipped()
-            } else {
-                TabView(selection: $selectedImageIndex) {
-                    ForEach(0..<3, id: \.self) { index in
-                        HeroPlaceholderView(styleIndex: (property.imageStyleIndex + index) % 6, cornerRadius: 0)
-                            .frame(height: 280)
-                            .tag(index)
-                    }
-                }
-                .tabViewStyle(.page(indexDisplayMode: .automatic))
-                .frame(height: 280)
-                .overlay(alignment: .bottom) {
-                    HStack(spacing: 6) {
-                        ForEach(0..<3, id: \.self) { i in
-                            Circle()
-                                .fill(selectedImageIndex == i ? Color.white : Color.white.opacity(0.5))
-                                .frame(width: 6, height: 6)
-                        }
-                    }
-                    .padding(.bottom, 12)
+    private var heroSectionWithParallax: some View {
+        ZStack(alignment: .bottom) {
+            heroContent
+            LinearGradient(
+                colors: [.clear, .black.opacity(0.5)],
+                startPoint: .center,
+                endPoint: .bottom
+            )
+            .allowsHitTesting(false)
+            pageIndicatorOverlay
+        }
+        .frame(height: heroHeight)
+        .clipped()
+    }
+
+    @ViewBuilder
+    private var heroContent: some View {
+        if let names = property.imageNames, !names.isEmpty {
+            TabView(selection: $selectedImageIndex) {
+                ForEach(Array(names.enumerated()), id: \.offset) { index, name in
+                    Image(name)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: heroHeight)
+                        .clipped()
+                        .tag(index)
                 }
             }
+            .tabViewStyle(.page(indexDisplayMode: .automatic))
+        } else if let name = property.imageName {
+            Image(name)
+                .resizable()
+                .scaledToFill()
+                .frame(height: heroHeight)
+                .clipped()
+        } else {
+            TabView(selection: $selectedImageIndex) {
+                ForEach(0..<3, id: \.self) { index in
+                    HeroPlaceholderView(styleIndex: (property.imageStyleIndex + index) % 6, cornerRadius: 0)
+                        .frame(height: heroHeight)
+                        .tag(index)
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .automatic))
+        }
+    }
+
+    @ViewBuilder
+    private var pageIndicatorOverlay: some View {
+        if let names = property.imageNames, !names.isEmpty {
+            pageIndicator(count: names.count)
+        } else if property.imageName == nil {
+            HStack(spacing: 6) {
+                ForEach(0..<3, id: \.self) { i in
+                    Circle()
+                        .fill(selectedImageIndex == i ? Color.white : Color.white.opacity(0.5))
+                        .frame(width: 6, height: 6)
+                }
+            }
+            .padding(.bottom, 12)
         }
     }
 
     private var priceAndStatsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(property.priceFormatted)
-                .font(.title)
-                .fontWeight(.bold)
+                .font(.appTitle2)
             Text(property.fullAddress)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
@@ -148,7 +164,7 @@ struct PropertyDetailView: View {
     private var descriptionSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Description")
-                .font(.headline)
+                .font(.appHeadline)
             Text(property.description)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
@@ -160,7 +176,7 @@ struct PropertyDetailView: View {
     private var amenitiesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Amenities")
-                .font(.headline)
+                .font(.appHeadline)
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 140))], spacing: 12) {
                 ForEach(property.amenities, id: \.self) { amenity in
                     HStack(spacing: 8) {
@@ -221,7 +237,7 @@ struct PropertyDetailView: View {
     private var mapPreviewSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Location")
-                .font(.headline)
+                .font(.appHeadline)
                 .padding(.horizontal)
             MapPreviewView(properties: [property], selectedPropertyId: .constant(property.id))
                 .frame(height: 200)
@@ -362,7 +378,7 @@ struct PropertyDetailView: View {
     private var similarPropertiesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Similar Properties")
-                .font(.headline)
+                .font(.appHeadline)
                 .padding(.horizontal)
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 16) {
@@ -408,7 +424,8 @@ struct PropertyDetailView: View {
         }
         .frame(width: 160)
         .background(Color(.secondarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .clipShape(RoundedRectangle(cornerRadius: 14))
+        .shadow(color: AppTheme.cardShadow.opacity(0.5), radius: 6, x: 0, y: 3)
     }
 
     private func formatBaths(_ n: Double) -> String {

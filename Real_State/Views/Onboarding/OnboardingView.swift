@@ -43,13 +43,20 @@ struct OnboardingView: View {
         ZStack {
             LinearGradient(
                 colors: [
-                    Color(red: 0.05, green: 0.08, blue: 0.18),
-                    Color(red: 0.08, green: 0.12, blue: 0.25)
+                    Color(red: 0.06, green: 0.09, blue: 0.2),
+                    Color(red: 0.12, green: 0.15, blue: 0.28)
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
+            GeometryReader { geo in
+                Circle()
+                    .fill(AppTheme.accent.opacity(0.06))
+                    .frame(width: 280, height: 280)
+                    .blur(radius: 80)
+                    .offset(x: geo.size.width * 0.4, y: -80)
+            }
 
             VStack(spacing: 0) {
                 HStack {
@@ -85,26 +92,26 @@ struct OnboardingView: View {
 
                 Button(action: {
                     if currentPage < pages.count - 1 {
-                        withAnimation { currentPage += 1 }
+                        withAnimation(.easeInOut(duration: 0.3)) { currentPage += 1 }
                     } else {
                         onComplete()
                     }
                 }) {
                     Text(currentPage < pages.count - 1 ? "Next" : "Get Started")
-                        .font(.headline)
-                        .foregroundStyle(.white)
+                        .font(.appHeadline)
+                        .foregroundStyle(.black)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 16)
                         .background(
                             LinearGradient(
-                                colors: [Color.blue, Color.blue.opacity(0.85)],
+                                colors: [AppTheme.accent, AppTheme.accentDark],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             ),
                             in: RoundedRectangle(cornerRadius: 14)
                         )
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(ScaleButtonStyle())
                 .padding(.horizontal, 24)
                 .padding(.bottom, 48)
             }
@@ -114,21 +121,20 @@ struct OnboardingView: View {
     private func onboardingPageView(_ page: OnboardingPage) -> some View {
         VStack(spacing: 32) {
             Spacer(minLength: 40)
-            Image(systemName: page.icon)
+                Image(systemName: page.icon)
                 .font(.system(size: 72))
                 .foregroundStyle(
                     LinearGradient(
-                        colors: [.white, .white.opacity(0.85)],
+                        colors: [.white, .white.opacity(0.9)],
                         startPoint: .top,
                         endPoint: .bottom
                     )
                 )
-                .shadow(color: .black.opacity(0.2), radius: 12, x: 0, y: 4)
+                .shadow(color: .black.opacity(0.25), radius: 16, x: 0, y: 6)
 
             VStack(spacing: 16) {
                 Text(page.title)
-                    .font(.title2)
-                    .fontWeight(.bold)
+                    .font(.appTitle2)
                     .foregroundStyle(.white)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 24)

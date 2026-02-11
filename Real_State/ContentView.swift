@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ContentView: View {
     @StateObject private var appState = AppState()
@@ -35,6 +36,13 @@ struct ContentView: View {
                 .tag(3)
         }
         .tint(AppTheme.accent)
+        .onAppear {
+            let appearance = UITabBarAppearance()
+            appearance.configureWithDefaultBackground()
+            appearance.shadowColor = UIColor.black.withAlphaComponent(0.08)
+            UITabBar.appearance().standardAppearance = appearance
+            UITabBar.appearance().scrollEdgeAppearance = appearance
+        }
         .environmentObject(appState)
     }
 }

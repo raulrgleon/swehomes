@@ -55,7 +55,7 @@ struct PropertyCardView: View {
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text(property.priceFormatted)
-                        .font(.headline)
+                        .font(.appHeadline)
                         .foregroundStyle(.primary)
                     if property.bedrooms > 0 || property.bathrooms > 0 || property.squareFeet > 0 {
                         HStack(spacing: 16) {
@@ -69,11 +69,11 @@ struct PropertyCardView: View {
                                 label(icon: "square.foot", text: "\(property.squareFeet)")
                             }
                         }
-                        .font(.subheadline)
+                        .font(.appSubheadline)
                         .foregroundStyle(.secondary)
                     }
                     Text(property.fullAddress)
-                        .font(.caption)
+                        .font(.appCaption)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                     Text("\(property.category.rawValue) • \(property.listingType.rawValue)")
@@ -83,10 +83,10 @@ struct PropertyCardView: View {
                 .padding(12)
             }
             .background(Color(.secondarySystemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-            .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 4)
+            .clipShape(RoundedRectangle(cornerRadius: 18))
+            .shadow(color: AppTheme.cardShadow, radius: AppTheme.cardShadowRadius, x: 0, y: 6)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(ScaleButtonStyle())
     }
 
     private func tag(_ text: String, color: Color) -> some View {

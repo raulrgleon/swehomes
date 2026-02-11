@@ -29,7 +29,8 @@ struct MapPreviewView: View {
                 Annotation(property.title, coordinate: property.coordinate) {
                     MapPinView(
                         isSelected: selectedPropertyId == property.id,
-                        category: property.category
+                        category: property.category,
+                        price: property.priceFormatted
                     ) {
                         selectedPropertyId = property.id
                     }
@@ -38,6 +39,11 @@ struct MapPreviewView: View {
             }
         }
         .mapStyle(.standard(elevation: .realistic))
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(Color(.systemGray5).opacity(0.5), lineWidth: 1)
+        )
         .onAppear {
             position = .region(houstonRegion)
         }
@@ -47,6 +53,7 @@ struct MapPreviewView: View {
 private struct MapPinView: View {
     let isSelected: Bool
     let category: PropertyCategory
+    let price: String
     let action: () -> Void
 
     private var pinColor: Color {
@@ -60,11 +67,21 @@ private struct MapPinView: View {
 
     var body: some View {
         Button(action: action) {
-            Image(systemName: "mappin.circle.fill")
-                .font(.title)
-                .foregroundStyle(pinColor)
-                .scaleEffect(isSelected ? 1.2 : 1.0)
-                .animation(.easeInOut(duration: 0.2), value: isSelected)
+            VStack(spacing: 4) {
+                Text(price)
+                    .font(.system(size: 10, weight: .semibold, design: .rounded))
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 3)
+                    .background(pinColor)
+                    .clipShape(Capsule())
+                    .opacity(isSelected ? 1 : 0.9)
+                Image(systemName: "mappin.circle.fill")
+                    .font(.title2)
+                    .foregroundStyle(pinColor)
+                    .scaleEffect(isSelected ? 1.15 : 1.0)
+            }
+            .animation(.easeInOut(duration: 0.2), value: isSelected)
         }
         .buttonStyle(.plain)
     }

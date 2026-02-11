@@ -24,6 +24,7 @@ final class ExploreViewModel: ObservableObject {
     @Published var selectedListingType: ListingType = .sale
     @Published var filters: PropertyFilters = PropertyFilters()
     @Published var isFilterSheetPresented: Bool = false
+    @Published var isLoadingListings: Bool = true
 
     /// Filtra propiedades por categoría, tipo (Lease/Sale), búsqueda y filtros
     func filteredProperties(_ properties: [Property]) -> [Property] {
@@ -56,5 +57,13 @@ final class ExploreViewModel: ObservableObject {
     /// Hot Deals para el carrusel (más propiedades para scroll automático)
     func hotDealsProperties(_ properties: [Property]) -> [Property] {
         Array(filteredProperties(properties).prefix(8))
+    }
+
+    /// Simula carga inicial (para skeleton)
+    func loadListings() {
+        guard isLoadingListings else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+            self?.isLoadingListings = false
+        }
     }
 }

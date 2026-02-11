@@ -111,7 +111,25 @@ struct ExploreView: View {
                     selectedProperty = p
                 }
             }
+            .onAppear { viewModel.loadListings() }
         }
+    }
+
+    private var emptyListingsState: some View {
+        VStack(spacing: 20) {
+            Image(systemName: "building.2.trianglebadge.exclamationmark")
+                .font(.system(size: 56))
+                .foregroundStyle(.secondary.opacity(0.7))
+            Text("No properties found")
+                .font(.appHeadline)
+            Text("Try adjusting your search or filters to see more listings.")
+                .font(.appSubheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 32)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 48)
     }
 
     private var mapSection: some View {
@@ -159,20 +177,21 @@ struct ExploreView: View {
                     .frame(width: 280, height: 160)
                     .clipped()
                     Text("🔥 Hot")
-                        .font(.caption2)
+                        .font(.caption)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 5)
                         .background(AppTheme.hotOrange)
                         .clipShape(Capsule())
-                        .padding(8)
+                        .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 1)
+                        .padding(10)
                 }
                 VStack(alignment: .leading, spacing: 4) {
                     Text(property.priceFormatted)
-                        .font(.headline)
+                        .font(.appHeadline)
                     Text(property.fullAddress)
-                        .font(.caption)
+                        .font(.appCaption)
                         .foregroundStyle(.secondary)
                         .lineLimit(1)
                 }
@@ -181,26 +200,27 @@ struct ExploreView: View {
             }
             .frame(width: 280)
             .background(Color(.secondarySystemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-            .shadow(color: .black.opacity(0.06), radius: 8, x: 0, y: 4)
+            .clipShape(RoundedRectangle(cornerRadius: 18))
+            .shadow(color: AppTheme.cardShadow, radius: AppTheme.cardShadowRadius, x: 0, y: 6)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(ScaleButtonStyle())
     }
 
     private var propertyListSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("All Listings")
-                .font(.title2)
-                .fontWeight(.semibold)
+                .font(.appTitle2)
                 .padding(.horizontal)
             let filtered = viewModel.filteredProperties(properties)
-            if filtered.isEmpty {
-                ContentUnavailableView(
-                    "No properties",
-                    systemImage: "building.2",
-                    description: Text("Try adjusting search or filters.")
-                )
-                .padding(.vertical, 40)
+            if viewModel.isLoadingListings {
+                LazyVStack(spacing: 16) {
+                    ForEach(0..<4, id: \.self) { _ in
+                        SkeletonPropertyCard()
+                            .padding(.horizontal)
+                    }
+                }
+            } else if filtered.isEmpty {
+                emptyListingsState
             } else {
                 LazyVStack(spacing: 16) {
                     ForEach(filtered) { property in
@@ -246,8 +266,7 @@ private struct HotDealsCarouselView<Card: View>: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Hot Deals!")
-                .font(.title2)
-                .fontWeight(.semibold)
+                .font(.appTitle2)
                 .padding(.horizontal)
                 .accessibilityAddTraits(.isHeader)
 
