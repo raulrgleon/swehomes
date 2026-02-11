@@ -49,24 +49,32 @@ struct PropertyDetailView: View {
 
     private var heroSection: some View {
         VStack(spacing: 0) {
-            TabView(selection: $selectedImageIndex) {
-                ForEach(0..<3, id: \.self) { index in
-                    HeroPlaceholderView(styleIndex: (property.imageStyleIndex + index) % 6, cornerRadius: 0)
-                        .frame(height: 280)
-                        .tag(index)
-                }
-            }
-            .tabViewStyle(.page(indexDisplayMode: .automatic))
-            .frame(height: 280)
-            .overlay(alignment: .bottom) {
-                HStack(spacing: 6) {
-                    ForEach(0..<3, id: \.self) { i in
-                        Circle()
-                            .fill(selectedImageIndex == i ? Color.white : Color.white.opacity(0.5))
-                            .frame(width: 6, height: 6)
+            if let name = property.imageName {
+                Image(name)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(height: 280)
+                    .clipped()
+            } else {
+                TabView(selection: $selectedImageIndex) {
+                    ForEach(0..<3, id: \.self) { index in
+                        HeroPlaceholderView(styleIndex: (property.imageStyleIndex + index) % 6, cornerRadius: 0)
+                            .frame(height: 280)
+                            .tag(index)
                     }
                 }
-                .padding(.bottom, 12)
+                .tabViewStyle(.page(indexDisplayMode: .automatic))
+                .frame(height: 280)
+                .overlay(alignment: .bottom) {
+                    HStack(spacing: 6) {
+                        ForEach(0..<3, id: \.self) { i in
+                            Circle()
+                                .fill(selectedImageIndex == i ? Color.white : Color.white.opacity(0.5))
+                                .frame(width: 6, height: 6)
+                        }
+                    }
+                    .padding(.bottom, 12)
+                }
             }
         }
     }

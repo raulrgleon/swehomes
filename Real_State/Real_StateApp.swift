@@ -10,13 +10,16 @@ import SwiftUI
 @main
 struct Real_StateApp: App {
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
+    @AppStorage("isLoggedIn") private var isLoggedIn = false
 
     var body: some Scene {
         WindowGroup {
-            if hasSeenOnboarding {
-                ContentView()
-            } else {
+            if !hasSeenOnboarding {
                 OnboardingView(onComplete: { hasSeenOnboarding = true })
+            } else if !isLoggedIn {
+                LoginView(onLogin: { isLoggedIn = true })
+            } else {
+                ContentView()
             }
         }
     }

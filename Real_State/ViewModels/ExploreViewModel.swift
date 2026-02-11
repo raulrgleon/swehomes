@@ -52,4 +52,9 @@ final class ExploreViewModel: ObservableObject {
     func featuredProperties(_ properties: [Property]) -> [Property] {
         Array(filteredProperties(properties).prefix(3))
     }
+
+    /// Hot Deals para el carrusel (más propiedades para scroll automático)
+    func hotDealsProperties(_ properties: [Property]) -> [Property] {
+        Array(filteredProperties(properties).prefix(8))
+    }
 }

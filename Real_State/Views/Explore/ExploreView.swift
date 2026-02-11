@@ -126,20 +126,11 @@ struct ExploreView: View {
     }
 
     private var featuredSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Featured")
-                .font(.title2)
-                .fontWeight(.semibold)
-                .padding(.horizontal)
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 16) {
-                    ForEach(viewModel.featuredProperties(properties)) { property in
-                        featuredCard(property)
-                    }
-                }
-                .padding(.horizontal)
-            }
-        }
+        HotDealsCarouselView(
+            properties: viewModel.hotDealsProperties(properties),
+            onSelect: { selectedProperty = $0 },
+            cardContent: { featuredCard($0) }
+        )
     }
 
     private func featuredCard(_ property: Property) -> some View {
@@ -147,8 +138,17 @@ struct ExploreView: View {
             selectedProperty = property
         } label: {
             VStack(alignment: .leading, spacing: 0) {
-                HeroPlaceholderView(styleIndex: property.imageStyleIndex)
-                    .frame(width: 280, height: 160)
+                Group {
+                    if let name = property.imageName {
+                        Image(name)
+                            .resizable()
+                            .scaledToFill()
+                    } else {
+                        HeroPlaceholderView(styleIndex: property.imageStyleIndex)
+                    }
+                }
+                .frame(width: 280, height: 160)
+                .clipped()
                 VStack(alignment: .leading, spacing: 4) {
                     Text(property.priceFormatted)
                         .font(.headline)
@@ -206,6 +206,65 @@ struct ExploreView: View {
                 .first { $0.isKeyWindow }?
                 .endEditing(true)
         }
+    }
+}
+
+// MARK: - Hot Deals Carousel
+
+private struct HotDealsCarouselView<Card: View>: View {
+    let properties: [Property]
+    let onSelect: (Property) -> Void
+    @ViewBuilder let cardContent: (Property) -> Card
+
+    @State private var currentIndex = 0
+    @State private var timer: Timer?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Hot Deals!")
+                .font(.title2)
+                .fontWeight(.semibold)
+                .padding(.horizontal)
+
+            if properties.isEmpty {
+                Color.clear.frame(height: 1)
+            } else {
+                ScrollViewReader { proxy in
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 16) {
+                            ForEach(Array(properties.enumerated()), id: \.element.id) { index, property in
+                                Button {
+                                    onSelect(property)
+                                } label: {
+                                    cardContent(property)
+                                }
+                                .buttonStyle(.plain)
+                                .id(index)
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    .onAppear {
+                        startCarousel(proxy: proxy)
+                    }
+                    .onDisappear {
+                        timer?.invalidate()
+                    }
+                }
+            }
+        }
+    }
+
+    private func startCarousel(proxy: ScrollViewProxy) {
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 3.5, repeats: true) { _ in
+            withAnimation(.easeInOut(duration: 0.5)) {
+                currentIndex = (currentIndex + 1) % max(1, properties.count)
+                proxy.scrollTo(currentIndex, anchor: .leading)
+            }
+        }
+        timer?.tolerance = 0.3
+        RunLoop.main.add(timer!, forMode: .common)
     }
 }
 

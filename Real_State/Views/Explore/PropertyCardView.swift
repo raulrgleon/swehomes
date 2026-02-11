@@ -18,8 +18,17 @@ struct PropertyCardView: View {
         Button(action: onTap) {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .topTrailing) {
-                    HeroPlaceholderView(styleIndex: property.imageStyleIndex)
-                        .frame(height: 160)
+                    Group {
+                        if let name = property.imageName {
+                            Image(name)
+                                .resizable()
+                                .scaledToFill()
+                        } else {
+                            HeroPlaceholderView(styleIndex: property.imageStyleIndex)
+                        }
+                    }
+                    .frame(height: 160)
+                    .clipped()
                     HStack(spacing: 6) {
                         if property.isNewListing {
                             tag("New", color: .green)

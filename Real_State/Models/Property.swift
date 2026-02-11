@@ -54,8 +54,10 @@ struct Property: Identifiable, Equatable, Hashable {
     var agentId: UUID
     var isNewListing: Bool
     var isOpenHouse: Bool
-    /// Índice para gradiente/emoji de imagen fake (0...5)
+    /// Índice para gradiente/emoji de imagen fake (0...5). Si imageName no es nil, se usa la imagen real.
     var imageStyleIndex: Int
+    /// Nombre del asset de imagen (ej: "PropertyHouse"). Si nil, se usa placeholder.
+    var imageName: String? = nil
 
     var fullAddress: String { "\(address), \(city), \(state)" }
     var priceFormatted: String {
