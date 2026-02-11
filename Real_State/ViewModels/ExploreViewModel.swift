@@ -54,9 +54,9 @@ final class ExploreViewModel: ObservableObject {
         Array(filteredProperties(properties).prefix(3))
     }
 
-    /// Hot Deals para el carrusel (más propiedades para scroll automático)
+    /// Hot Deals para el carrusel (5 de cada tipo: Res, Com, Land)
     func hotDealsProperties(_ properties: [Property]) -> [Property] {
-        Array(filteredProperties(properties).prefix(8))
+        Array(filteredProperties(properties).prefix(15))
     }
 
     /// Simula carga inicial (para skeleton)
