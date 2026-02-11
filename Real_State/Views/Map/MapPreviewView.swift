@@ -94,6 +94,6 @@ private struct MapPinView: View {
 }
 
 #Preview {
-    MapPreviewView(properties: MockData.properties, selectedPropertyId: .constant(nil))
+    MapPreviewView(properties: PropertyRepository.shared.fetchProperties(), selectedPropertyId: .constant(nil))
         .frame(height: 300)
 }

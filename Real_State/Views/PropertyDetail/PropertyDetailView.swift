@@ -20,6 +20,7 @@ struct PropertyDetailView: View {
     private let heroHeight: CGFloat = 340
 
     private var fullscreenImageNames: [String]? {
+        if let urls = property.imageURLs, !urls.isEmpty { return urls }
         if let names = property.imageNames, !names.isEmpty { return names }
         if let name = property.imageName { return [name] }
         return nil
@@ -108,7 +109,26 @@ struct PropertyDetailView: View {
 
     @ViewBuilder
     private var heroContent: some View {
-        if let names = property.imageNames, !names.isEmpty {
+        if let urls = property.imageURLs, !urls.isEmpty {
+            TabView(selection: $selectedImageIndex) {
+                ForEach(Array(urls.enumerated()), id: \.offset) { index, urlStr in
+                    if let url = URL(string: urlStr) {
+                        AsyncImage(url: url) { phase in
+                            switch phase {
+                            case .success(let img): img.resizable().scaledToFill()
+                            case .failure(_): HeroPlaceholderView(styleIndex: (property.imageStyleIndex + index) % 6, cornerRadius: 0)
+                            case .empty: HeroPlaceholderView(styleIndex: (property.imageStyleIndex + index) % 6, cornerRadius: 0)
+                            @unknown default: HeroPlaceholderView(styleIndex: property.imageStyleIndex, cornerRadius: 0)
+                            }
+                        }
+                        .frame(height: heroHeight)
+                        .clipped()
+                        .tag(index)
+                    }
+                }
+            }
+            .tabViewStyle(.page(indexDisplayMode: .automatic))
+        } else if let names = property.imageNames, !names.isEmpty {
             TabView(selection: $selectedImageIndex) {
                 ForEach(Array(names.enumerated()), id: \.offset) { index, name in
                     Image(name)
@@ -436,17 +456,7 @@ struct PropertyDetailView: View {
 
     private func similarCard(_ p: Property) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            Group {
-                if let name = p.imageName {
-                    Image(name)
-                        .resizable()
-                        .scaledToFill()
-                } else {
-                    HeroPlaceholderView(styleIndex: p.imageStyleIndex)
-                }
-            }
-            .frame(width: 160, height: 100)
-            .clipped()
+            PropertyImageView(property: p, height: 100, width: 160)
             VStack(alignment: .leading, spacing: 2) {
                 Text(p.priceFormatted)
                     .font(.subheadline)
@@ -482,7 +492,7 @@ private final class MessageComposeDelegate: NSObject, MFMessageComposeViewContro
 
 #Preview {
     NavigationStack {
-        PropertyDetailView(property: MockData.properties[0])
+        PropertyDetailView(property: PropertyRepository.shared.fetchProperties()[0])
             .environmentObject(AppState())
     }
 }

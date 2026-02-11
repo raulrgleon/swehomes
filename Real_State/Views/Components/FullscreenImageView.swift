@@ -39,9 +39,22 @@ struct FullscreenImageView: View {
 
             TabView(selection: $currentIndex) {
                 ForEach(Array(imageNames.enumerated()), id: \.offset) { index, name in
-                    Image(name)
-                        .resizable()
-                        .scaledToFit()
+                    Group {
+                        if name.hasPrefix("http"), let url = URL(string: name) {
+                            AsyncImage(url: url) { phase in
+                                switch phase {
+                                case .success(let img): img.resizable().scaledToFit()
+                                case .failure(_): Color.gray
+                                case .empty: Color.gray.opacity(0.3)
+                                @unknown default: Color.gray
+                                }
+                            }
+                        } else {
+                            Image(name)
+                                .resizable()
+                                .scaledToFit()
+                        }
+                    }
                         .scaleEffect(currentIndex == index ? scale : 1)
                         .gesture(
                             MagnificationGesture()

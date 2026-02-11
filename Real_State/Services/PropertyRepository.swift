@@ -12,11 +12,11 @@ final class PropertyRepository {
     static let shared = PropertyRepository()
     
     func fetchProperties() -> [Property] {
-        MockData.properties
+        PropertyCSVData.properties
     }
     
     func similarProperties(to property: Property, limit: Int = 3) -> [Property] {
-        MockData.properties
+        PropertyCSVData.properties
             .filter { $0.id != property.id && $0.category == property.category }
             .prefix(limit)
             .map { $0 }

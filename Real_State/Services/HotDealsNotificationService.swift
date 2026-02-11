@@ -33,7 +33,7 @@ final class HotDealsNotificationService {
         formatter.maximumFractionDigits = 0
         formatter.locale = Locale(identifier: "en_US")
 
-        let deals = Array(MockData.properties.prefix(3))
+        let deals = Array(PropertyRepository.shared.fetchProperties().prefix(3))
         let sampleDeal = deals.first
         let priceText = sampleDeal.map { formatter.string(from: NSNumber(value: $0.price)) ?? "" } ?? ""
         let titleText = sampleDeal?.title ?? "Great property"

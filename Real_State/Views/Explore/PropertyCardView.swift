@@ -19,17 +19,7 @@ struct PropertyCardView: View {
         Button(action: onTap) {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .topTrailing) {
-                    Group {
-                        if let name = property.imageName {
-                            Image(name)
-                                .resizable()
-                                .scaledToFill()
-                        } else {
-                            HeroPlaceholderView(styleIndex: property.imageStyleIndex)
-                        }
-                    }
-                    .frame(height: 160)
-                    .clipped()
+                    PropertyImageView(property: property, height: 160)
                     HStack(spacing: 6) {
                         if property.isNewListing {
                             tag("New", color: .green)
@@ -115,7 +105,7 @@ struct PropertyCardView: View {
 
 #Preview {
     PropertyCardView(
-        property: MockData.properties[0],
+        property: PropertyRepository.shared.fetchProperties()[0],
         isSaved: false,
         onTap: {},
         onFavorite: {}

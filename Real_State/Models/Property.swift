@@ -60,6 +60,8 @@ struct Property: Identifiable, Equatable, Hashable {
     var imageName: String? = nil
     /// Múltiples imágenes para carrusel. Si nil, se usa imageName. Si vacío, placeholder.
     var imageNames: [String]? = nil
+    /// URLs de imágenes remotas (para datos de CSV/API). Si presente, se usa AsyncImage.
+    var imageURLs: [String]? = nil
 
     var fullAddress: String { "\(address), \(city), \(state)" }
     var priceFormatted: String {

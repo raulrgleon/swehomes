@@ -20,7 +20,7 @@ struct ExploreView: View {
     @State private var selectedPropertyIdForMap: UUID?
     @State private var isFloatingSearchVisible = true
     @State private var toastMessage: String?
-    private let properties = MockData.properties
+    private let properties = PropertyRepository.shared.fetchProperties()
 
     var body: some View {
         NavigationStack {
@@ -167,17 +167,7 @@ struct ExploreView: View {
         } label: {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .topLeading) {
-                    Group {
-                        if let name = property.imageName {
-                            Image(name)
-                                .resizable()
-                                .scaledToFill()
-                        } else {
-                            HeroPlaceholderView(styleIndex: property.imageStyleIndex)
-                        }
-                    }
-                    .frame(width: 280, height: 160)
-                    .clipped()
+                    PropertyImageView(property: property, height: 160, width: 280)
                     Text("🔥 Hot")
                         .font(.caption)
                         .fontWeight(.bold)

@@ -11,7 +11,7 @@ struct SearchView: View {
     @State private var searchText = ""
     @EnvironmentObject var appState: AppState
     @State private var selectedProperty: Property?
-    private let properties = MockData.properties
+    private let properties = PropertyRepository.shared.fetchProperties()
 
     private var filteredProperties: [Property] {
         guard !searchText.isEmpty else { return [] }

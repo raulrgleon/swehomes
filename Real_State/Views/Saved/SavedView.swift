@@ -11,7 +11,7 @@ struct SavedView: View {
     @EnvironmentObject var appState: AppState
     @State private var selectedProperty: Property?
     @State private var toastMessage: String?
-    private let properties = MockData.properties
+    private let properties = PropertyRepository.shared.fetchProperties()
 
     private var savedList: [Property] {
         appState.savedProperties(from: properties)
