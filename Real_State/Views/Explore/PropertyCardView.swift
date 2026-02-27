@@ -72,9 +72,9 @@ struct PropertyCardView: View {
                 }
                 .padding(12)
             }
-            .background(Color(.secondarySystemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 18))
-            .shadow(color: AppTheme.cardShadow, radius: AppTheme.cardShadowRadius, x: 0, y: 6)
+            .background(Color(.systemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+            .shadow(color: Color.black.opacity(0.08), radius: 15, x: 0, y: 8)
         }
         .buttonStyle(ScaleButtonStyle())
     }
@@ -82,12 +82,14 @@ struct PropertyCardView: View {
     private func tag(_ text: String, color: Color) -> some View {
         Text(text)
             .font(.caption2)
-            .fontWeight(.semibold)
+            .fontWeight(.bold)
             .foregroundStyle(.white)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
-            .background(color)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(.thinMaterial)
+            .background(color.opacity(0.8))
             .clipShape(Capsule())
+            .shadow(color: .black.opacity(0.1), radius: 2, x: 0, y: 1)
     }
 
     private func label(icon: String, text: String) -> some View {

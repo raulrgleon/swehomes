@@ -19,6 +19,7 @@ struct ExploreView: View {
     @State private var selectedProperty: Property?
     @State private var selectedPropertyIdForMap: UUID?
     @State private var isFloatingSearchVisible = true
+    @State private var isPushBannerVisible = true
     @State private var toastMessage: String?
     private let properties = PropertyRepository.shared.fetchProperties()
 
@@ -98,6 +99,88 @@ struct ExploreView: View {
                     }
                     .allowsHitTesting(true)
                 }
+
+                // V3: Push Notification Banner Mock
+                VStack {
+                    if isPushBannerVisible {
+                        Button {
+                            let generator = UIImpactFeedbackGenerator(style: .heavy)
+                            generator.impactOccurred()
+                            toastMessage = "Navigating to Price Drop Property..."
+                            withAnimation(.easeOut(duration: 0.3)) {
+                                isPushBannerVisible = false
+                            }
+                        } label: {
+                            HStack(spacing: 12) {
+                                Image(systemName: "bell.badge.fill")
+                                    .foregroundStyle(.red)
+                                    .font(.title2)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("Price dropped near you!")
+                                        .font(.subheadline).bold()
+                                    Text("A saved property in Midtown just dropped 10%.")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                                .multilineTextAlignment(.leading)
+                                Spacer()
+                                
+                                Button {
+                                    withAnimation(.easeOut(duration: 0.3)) {
+                                        isPushBannerVisible = false
+                                    }
+                                } label: {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundStyle(.secondary)
+                                        .font(.title3)
+                                }
+                                .padding(.leading, 8)
+                            }
+                            .padding()
+                            .background(.ultraThinMaterial)
+                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                            .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
+                            .padding(.horizontal)
+                            .padding(.top, 16)
+                        }
+                        .buttonStyle(ScaleButtonStyle())
+                        .onAppear {
+                            // Auto dismiss after 8 seconds
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
+                                withAnimation(.easeOut(duration: 0.3)) {
+                                    isPushBannerVisible = false
+                                }
+                            }
+                        }
+                    }
+                    Spacer()
+                }
+
+                // V3: AI Chat Assistant FAB
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Button {
+                            let generator = UIImpactFeedbackGenerator(style: .medium)
+                            generator.impactOccurred()
+                            toastMessage = "Launching AI Realtor Assistant..."
+                        } label: {
+                            Image(systemName: "sparkles")
+                                .font(.title.weight(.semibold))
+                                .foregroundStyle(.white)
+                                .frame(width: 60, height: 60)
+                                .background(
+                                    LinearGradient(colors: [.purple, .indigo, .blue], startPoint: .topLeading, endPoint: .bottomTrailing)
+                                )
+                                .clipShape(Circle())
+                                .shadow(color: .purple.opacity(0.4), radius: 10, x: 0, y: 5)
+                        }
+                        .buttonStyle(ScaleButtonStyle())
+                        .padding(.trailing, 20)
+                        .padding(.bottom, searchBarOnTop ? 100 : 20)
+                    }
+                }
             }
             .navigationTitle("SWE Homes")
             .navigationBarTitleDisplayMode(.inline)
@@ -172,12 +255,13 @@ struct ExploreView: View {
                         .font(.caption)
                         .fontWeight(.bold)
                         .foregroundStyle(.white)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 5)
-                        .background(AppTheme.hotOrange)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(.thinMaterial)
+                        .background(AppTheme.hotOrange.opacity(0.8))
                         .clipShape(Capsule())
-                        .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 1)
-                        .padding(10)
+                        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+                        .padding(12)
                 }
                 VStack(alignment: .leading, spacing: 4) {
                     Text(property.priceFormatted)
@@ -191,9 +275,9 @@ struct ExploreView: View {
                 .padding(12)
             }
             .frame(width: 280)
-            .background(Color(.secondarySystemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 18))
-            .shadow(color: AppTheme.cardShadow, radius: AppTheme.cardShadowRadius, x: 0, y: 6)
+            .background(Color(.systemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+            .shadow(color: Color.black.opacity(0.08), radius: 15, x: 0, y: 8)
         }
         .buttonStyle(ScaleButtonStyle())
     }

@@ -41,6 +41,8 @@ struct PropertyDetailView: View {
                 priceAndStatsSection
                 descriptionSection
                 amenitiesSection
+                NeighborhoodStatsView()
+                MortgageCalculatorView(price: Double(property.price))
                 mapPreviewSection
                 ctaButtonsSection
                 if !similarProperties.isEmpty {
@@ -315,11 +317,6 @@ struct PropertyDetailView: View {
         VStack(alignment: .leading, spacing: 16) {
             if let agent = agent {
                 HStack(spacing: 12) {
-                    Text("👤")
-                        .font(.system(size: 36))
-                        .frame(width: 48, height: 48)
-                        .background(Color(.tertiarySystemBackground))
-                        .clipShape(Circle())
                     VStack(alignment: .leading, spacing: 2) {
                         Text(agent.name)
                             .font(.headline)
@@ -329,15 +326,32 @@ struct PropertyDetailView: View {
                                 .foregroundStyle(.yellow)
                             Text(String(format: "%.1f", agent.rating))
                                 .font(.subheadline)
-                            Text("(\(agent.reviewCount) reviews)")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
                         }
                         Text(agent.company)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
                     Spacer(minLength: 0)
+                    
+                    // V3: Agent Stories Mock
+                    Button {
+                        toastMessage = "Playing Realtor Stories..."
+                    } label: {
+                        ZStack {
+                            Circle()
+                                .stroke(
+                                    LinearGradient(colors: [.purple, .red, .orange], startPoint: .topLeading, endPoint: .bottomTrailing),
+                                    lineWidth: 3
+                                )
+                                .frame(width: 54, height: 54)
+                            Text("👤")
+                                .font(.system(size: 32))
+                                .frame(width: 46, height: 46)
+                                .background(Color(.tertiarySystemBackground))
+                                .clipShape(Circle())
+                        }
+                    }
+                    .buttonStyle(ScaleButtonStyle())
                 }
                 .padding()
                 .background(Color(.secondarySystemBackground))
@@ -367,23 +381,55 @@ struct PropertyDetailView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(AppTheme.accent)
             }
+            HStack(spacing: 12) {
+                Button {
+                    toastMessage = "Initializing AR Decorator..."
+                } label: {
+                    Label("AR Decor", systemImage: "arkit")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
+                }
+                .buttonStyle(.bordered)
+                
+                Button {
+                    let generator = UIImpactFeedbackGenerator(style: .heavy)
+                    generator.impactOccurred()
+                    toastMessage = "Vault Unlocked via FaceID"
+                } label: {
+                    Label("Secure Vault", systemImage: "faceid")
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 14)
+                }
+                .buttonStyle(.bordered)
+            }
+            
             Button {
                 shareProperty()
                 toastMessage = "Property shared"
             } label: {
-                Label("Share", systemImage: "square.and.arrow.up")
+                Label("Share Property", systemImage: "square.and.arrow.up")
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 14)
             }
             .buttonStyle(.bordered)
+            
+            // Dynamic Action Button (Simulated Dynamic Island interaction trigger)
             Button {
-                // Schedule Tour - mock
+                let generator = UIImpactFeedbackGenerator(style: .rigid)
+                generator.impactOccurred()
+                toastMessage = "Tour Scheduled! Active in Dynamic Island."
             } label: {
-                Label("Schedule Tour", systemImage: "calendar")
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 14)
+                HStack {
+                    Image(systemName: "calendar.badge.clock")
+                    Text("Schedule Tour")
+                        .fontWeight(.bold)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
             }
-            .buttonStyle(.bordered)
+            .buttonStyle(.borderedProminent)
+            .tint(AppTheme.accent)
+            .foregroundStyle(Color(.black))
         }
         .padding(.horizontal)
     }
@@ -487,6 +533,171 @@ private final class MessageComposeDelegate: NSObject, MFMessageComposeViewContro
 
     func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
         controller.dismiss(animated: true)
+    }
+}
+
+// MARK: - Neighborhood Stats View
+struct NeighborhoodStatsView: View {
+    let walkScore = Int.random(in: 60...98)
+    let transitScore = Int.random(in: 50...95)
+    let bikeScore = Int.random(in: 40...90)
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Neighborhood")
+                .font(.appHeadline)
+            
+            HStack(spacing: 16) {
+                scoreBadge(title: "Walk", score: walkScore, icon: "figure.walk")
+                scoreBadge(title: "Transit", score: transitScore, icon: "bus")
+                scoreBadge(title: "Bike", score: bikeScore, icon: "bicycle")
+            }
+        }
+        .padding(.horizontal)
+    }
+    
+    private func scoreBadge(title: String, score: Int, icon: String) -> some View {
+        VStack(spacing: 8) {
+            ZStack {
+                Circle()
+                    .stroke(AppTheme.accent.opacity(0.2), lineWidth: 4)
+                Circle()
+                    .trim(from: 0, to: CGFloat(score) / 100.0)
+                    .stroke(AppTheme.accent, style: StrokeStyle(lineWidth: 4, lineCap: .round))
+                    .rotationEffect(.degrees(-90))
+                
+                Image(systemName: icon)
+                    .foregroundStyle(AppTheme.accent)
+            }
+            .frame(width: 48, height: 48)
+            
+            VStack(spacing: 2) {
+                Text("\(score)")
+                    .font(.headline)
+                Text(title)
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 12)
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+}
+
+// MARK: - Mortgage Calculator View
+struct MortgageCalculatorView: View {
+    let price: Double
+    @State private var downPaymentPercentage: Double = 20.0
+    @State private var interestRate: Double = 7.0
+    @State private var years: Int = 30
+    
+    var downPayment: Double {
+        price * (downPaymentPercentage / 100.0)
+    }
+    
+    var loanAmount: Double {
+        price - downPayment
+    }
+    
+    var monthlyPayment: Double {
+        let r = interestRate / 100.0 / 12.0
+        let n = Double(years * 12)
+        if r == 0 { return loanAmount / n }
+        let factor = pow(1.0 + r, n)
+        return loanAmount * (r * factor) / (factor - 1.0)
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Est. Mortgage")
+                .font(.appHeadline)
+            
+            VStack(spacing: 20) {
+                HStack(alignment: .top) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Monthly Payment")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                        Text(monthlyPayment, format: .currency(code: "USD").precision(.fractionLength(0)))
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundStyle(AppTheme.accent)
+                    }
+                    Spacer()
+                    
+                    // V3: Intelligent Doughnut Chart Mock
+                    ZStack {
+                        Circle()
+                            .stroke(AppTheme.accent.opacity(0.2), lineWidth: 8)
+                        Circle()
+                            .trim(from: 0, to: 0.65) // Mock Principal Ratio
+                            .stroke(AppTheme.accent, style: StrokeStyle(lineWidth: 8, lineCap: .round))
+                            .rotationEffect(.degrees(-90))
+                        Circle()
+                            .trim(from: 0.68, to: 1.0) // Mock Interest Ratio
+                            .stroke(AppTheme.hotOrange, style: StrokeStyle(lineWidth: 8, lineCap: .round))
+                            .rotationEffect(.degrees(-90))
+                        
+                        VStack(spacing: 0) {
+                            Text("65%")
+                                .font(.caption2).bold()
+                                .foregroundStyle(AppTheme.accent)
+                            Text("35%")
+                                .font(.system(size: 8)).bold()
+                                .foregroundStyle(AppTheme.hotOrange)
+                        }
+                    }
+                    .frame(width: 48, height: 48)
+                }
+                
+                VStack(spacing: 8) {
+                    HStack {
+                        Text("Down Payment (\(Int(downPaymentPercentage))%)")
+                            .font(.caption)
+                        Spacer()
+                        Text(downPayment, format: .currency(code: "USD").precision(.fractionLength(0)))
+                            .font(.caption)
+                            .fontWeight(.medium)
+                    }
+                    Slider(value: $downPaymentPercentage, in: 0...100, step: 5)
+                        .tint(AppTheme.accent)
+                }
+                
+                HStack(spacing: 16) {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Interest Rate")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        HStack {
+                            Text(String(format: "%.1f%%", interestRate))
+                                .font(.subheadline)
+                            Spacer()
+                            Stepper("", value: $interestRate, in: 1...15, step: 0.1)
+                                .labelsHidden()
+                        }
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Term (Years)")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                        HStack {
+                            Text("\(years) yrs")
+                                .font(.subheadline)
+                            Spacer()
+                            Stepper("", value: $years, in: 5...30, step: 5)
+                                .labelsHidden()
+                        }
+                    }
+                }
+            }
+            .padding()
+            .background(Color(.secondarySystemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+        }
+        .padding(.horizontal)
     }
 }
 

@@ -15,11 +15,13 @@ struct MapPreviewView: View {
     @State private var position: MapCameraPosition = .automatic
     @State private var visibleRegion: MKCoordinateRegion?
 
-    /// Región Gran Houston (área metropolitana completa)
-    private var houstonRegion: MKCoordinateRegion {
-        MKCoordinateRegion(
-            center: defaultCenter,
-            span: MKCoordinateSpan(latitudeDelta: 0.45, longitudeDelta: 0.5)
+    /// 3D Flyover Camera for Houston Region
+    private var houstonCamera: MapCamera {
+        MapCamera(
+            centerCoordinate: defaultCenter,
+            distance: 2500,
+            heading: 45,
+            pitch: 65
         )
     }
 
@@ -38,14 +40,14 @@ struct MapPreviewView: View {
                 .tag(property.id)
             }
         }
-        .mapStyle(.standard(elevation: .realistic))
+        .mapStyle(.standard(elevation: .realistic, pointsOfInterest: .excludingAll, showsTraffic: false))
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .overlay(
             RoundedRectangle(cornerRadius: 16)
                 .stroke(Color(.systemGray5).opacity(0.5), lineWidth: 1)
         )
         .onAppear {
-            position = .region(houstonRegion)
+            position = .camera(houstonCamera)
         }
     }
 }

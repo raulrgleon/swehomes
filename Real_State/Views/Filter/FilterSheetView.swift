@@ -16,63 +16,104 @@ struct FilterSheetView: View {
 
     var body: some View {
         NavigationStack {
-            Form {
-                Section("Price Range") {
-                    HStack {
-                        Text("Min")
-                        Spacer()
-                        Text(formatPrice(viewModel.filters.minPrice))
-                            .foregroundStyle(.secondary)
-                    }
-                    Slider(
-                        value: Binding(
-                            get: { Double(viewModel.filters.minPrice) },
-                            set: { viewModel.filters.minPrice = Int($0) }
-                        ),
-                        in: Double(priceRange.lowerBound)...Double(viewModel.filters.maxPrice),
-                        step: Double(priceStep)
-                    )
-                    HStack {
-                        Text("Max")
-                        Spacer()
-                        Text(formatPrice(viewModel.filters.maxPrice))
-                            .foregroundStyle(.secondary)
-                    }
-                    Slider(
-                        value: Binding(
-                            get: { Double(viewModel.filters.maxPrice) },
-                            set: { viewModel.filters.maxPrice = Int($0) }
-                        ),
-                        in: Double(viewModel.filters.minPrice)...Double(priceRange.upperBound),
-                        step: Double(priceStep)
-                    )
-                }
-
-                Section("Bedrooms") {
-                    Picker("Minimum", selection: $viewModel.filters.minBedrooms) {
-                        ForEach(0...5, id: \.self) { n in
-                            Text(n == 0 ? "Any" : "\(n)+")
-                                .tag(n)
+            ScrollView {
+                VStack(spacing: 24) {
+                    
+                    // Price Range Section
+                    filterSection(title: "Price Range") {
+                        VStack(spacing: 20) {
+                            HStack {
+                                Text(formatPrice(viewModel.filters.minPrice))
+                                    .font(.headline)
+                                Spacer()
+                                Text("-")
+                                    .foregroundStyle(.secondary)
+                                Spacer()
+                                Text(formatPrice(viewModel.filters.maxPrice))
+                                    .font(.headline)
+                            }
+                            .padding(.horizontal)
+                            
+                            VStack(spacing: 8) {
+                                HStack {
+                                    Text("Min")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                    Spacer()
+                                    Slider(
+                                        value: Binding(
+                                            get: { Double(viewModel.filters.minPrice) },
+                                            set: { viewModel.filters.minPrice = Int($0) }
+                                        ),
+                                        in: Double(priceRange.lowerBound)...Double(viewModel.filters.maxPrice),
+                                        step: Double(priceStep)
+                                    )
+                                    .tint(AppTheme.accent)
+                                    .padding(.leading, 8)
+                                }
+                                
+                                HStack {
+                                    Text("Max")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                    Spacer()
+                                    Slider(
+                                        value: Binding(
+                                            get: { Double(viewModel.filters.maxPrice) },
+                                            set: { viewModel.filters.maxPrice = Int($0) }
+                                        ),
+                                        in: Double(viewModel.filters.minPrice)...Double(priceRange.upperBound),
+                                        step: Double(priceStep)
+                                    )
+                                    .tint(AppTheme.accent)
+                                    .padding(.leading, 8)
+                                }
+                            }
                         }
                     }
-                    .pickerStyle(.menu)
-                }
-
-                Section("Bathrooms") {
-                    Picker("Minimum", selection: $viewModel.filters.minBathrooms) {
-                        Text("Any").tag(0.0)
-                        Text("1+").tag(1.0)
-                        Text("2+").tag(2.0)
-                        Text("3+").tag(3.0)
+                    
+                    // Bedrooms
+                    filterSection(title: "Bedrooms") {
+                        HStack(spacing: 12) {
+                            ForEach(0...4, id: \.self) { n in
+                                filterCapsule(
+                                    title: n == 0 ? "Any" : "\(n)+",
+                                    isSelected: viewModel.filters.minBedrooms == n
+                                ) {
+                                    viewModel.filters.minBedrooms = n
+                                }
+                            }
+                        }
                     }
-                    .pickerStyle(.menu)
+                    
+                    // Bathrooms
+                    filterSection(title: "Bathrooms") {
+                        HStack(spacing: 12) {
+                            ForEach([0.0, 1.0, 2.0, 3.0, 4.0], id: \.self) { n in
+                                filterCapsule(
+                                    title: n == 0 ? "Any" : "\(Int(n))+",
+                                    isSelected: viewModel.filters.minBathrooms == n
+                                ) {
+                                    viewModel.filters.minBathrooms = n
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Listing Type
+                    filterSection(title: "Show Only") {
+                        VStack(spacing: 16) {
+                            Toggle("New listings only", isOn: $viewModel.filters.newListingOnly)
+                                .tint(AppTheme.accent)
+                            Divider()
+                            Toggle("Open house only", isOn: $viewModel.filters.openHouseOnly)
+                                .tint(AppTheme.accent)
+                        }
+                    }
                 }
-
-                Section("Listing") {
-                    Toggle("New listing only", isOn: $viewModel.filters.newListingOnly)
-                    Toggle("Open house only", isOn: $viewModel.filters.openHouseOnly)
-                }
+                .padding()
             }
+            .background(Color(.systemGroupedBackground))
             .navigationTitle("Filters")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -80,15 +121,43 @@ struct FilterSheetView: View {
                     Button("Reset") {
                         viewModel.filters = PropertyFilters()
                     }
+                    .foregroundStyle(.secondary)
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Apply") {
                         dismiss()
                     }
-                    .fontWeight(.semibold)
+                    .fontWeight(.bold)
+                    .foregroundStyle(AppTheme.accent)
                 }
             }
         }
+    }
+    
+    private func filterSection(title: String, @ViewBuilder content: () -> some View) -> some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text(title)
+                .font(.headline)
+            content()
+        }
+        .padding()
+        .background(Color(.systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .shadow(color: .black.opacity(0.04), radius: 8, x: 0, y: 4)
+    }
+    
+    private func filterCapsule(title: String, isSelected: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(title)
+                .font(.subheadline)
+                .fontWeight(isSelected ? .semibold : .regular)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 10)
+                .foregroundStyle(isSelected ? .white : .primary)
+                .background(isSelected ? AppTheme.accent : Color(.systemGray6))
+                .clipShape(Capsule())
+        }
+        .buttonStyle(.plain)
     }
 
     private func formatPrice(_ value: Int) -> String {
