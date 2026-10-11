@@ -1,0 +1,1157 @@
+{
+ "https://swehomes.com/property/0-14th-st": {
+  "lat": 32.7280425,
+  "lon": -100.906579,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/0-22nd-st": {
+  "lat": 32.7204631,
+  "lon": -100.9191421,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/0-23rd-street": {
+  "lat": 30.0873105,
+  "lon": -96.0944835,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/0-25th-st": {
+  "lat": 30.0911252,
+  "lon": -96.0620229,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-27th-street": {
+  "lat": 30.7500255,
+  "lon": -94.4170903,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-95th-st-aka-9501-95th-st": {
+  "lat": 29.7273276,
+  "lon": -95.2922551,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-avenida-mosqueda-lot-1-4": {
+  "lat": 28.4622615,
+  "lon": -98.1825748,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-barge-rd": {
+  "lat": 31.1489745,
+  "lon": -94.4250182,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/0-bishop-st": {
+  "lat": 32.5395415,
+  "lon": -94.377279,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/0-caney-creek": {
+  "lat": 30.1589636,
+  "lon": -94.0156032,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/0-county-road-2221-49": {
+  "lat": 27.9437452,
+  "lon": -97.589309,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-county-road-2248-winters-rd": {
+  "lat": 30.3391626,
+  "lon": -95.0868601,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-cr-4437": {
+  "lat": 30.0339031,
+  "lon": -94.8909193,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-cullen-blvd-res": {
+  "lat": 29.6308054,
+  "lon": -95.3400634,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-e-tidwell-rd": {
+  "lat": 29.822944,
+  "lon": -95.29032,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-f-ave": {
+  "lat": 28.7891467,
+  "lon": -98.4972391,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/0-fm-2351-rd": {
+  "lat": 29.523985,
+  "lon": -95.192795,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-fritch-dr": {
+  "lat": 35.6574681,
+  "lon": -101.6027859,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/0-hackberry-dr-lot-4": {
+  "lat": 30.8208858,
+  "lon": -95.108227,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-homestead-rd": {
+  "lat": 29.8483535,
+  "lon": -95.3108313,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-judge-beto-garza-aka-3811-judge-beto-garza-dr": {
+  "lat": 26.1532584,
+  "lon": -97.9175222,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-loblolly-circle-lot-40": {
+  "lat": 30.0339031,
+  "lon": -94.8909193,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-locust-st-hillsboro-st": {
+  "lat": 32.0500281,
+  "lon": -96.9533094,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-malone": {
+  "lat": 30.9236572,
+  "lon": -94.0005224,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-miller-dr-lot-106": {
+  "lat": 30.3391626,
+  "lon": -95.0868601,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-n-hendrickson-st": {
+  "lat": 31.9818482,
+  "lon": -102.6167392,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/0-n-school-road": {
+  "lat": 28.4613462,
+  "lon": -98.1753379,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/0-new-delite-rd": {
+  "lat": 35.1664839,
+  "lon": -88.5866338,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-norris-st": {
+  "lat": 33.253874,
+  "lon": -95.88804,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/0-ofarrells-rd-tract-264-1562-acres": {
+  "lat": 30.3391626,
+  "lon": -95.0868601,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-plantation-road-lots-4-6": {
+  "lat": 30.9333325,
+  "lon": -95.336512,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-plauche-road": {
+  "lat": 31.677935,
+  "lon": -106.2165291,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-s-loop-e-tr-2a": {
+  "lat": 29.6766511,
+  "lon": -95.3654505,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-sam-houston-pkwy-tr-56": {
+  "lat": 29.9592361,
+  "lon": -95.4764258,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-sh-42": {
+  "lat": 32.2746638,
+  "lon": -94.9679215,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-shoshone-lot-632-633": {
+  "lat": 33.8452314,
+  "lon": -96.8270896,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-state-highway-31": {
+  "lat": 32.2834717,
+  "lon": -95.7274424,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/0-tuskegee-st-tr-26a-blk-10": {
+  "lat": 29.8563937,
+  "lon": -95.4433605,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-w-hwy-327": {
+  "lat": 30.3721532,
+  "lon": -94.1860142,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-walker-lot-460": {
+  "lat": 30.3391626,
+  "lon": -95.0868601,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/0-west-sam-houston-tr-58": {
+  "lat": 29.9592361,
+  "lon": -95.4764258,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/00-e-second-st": {
+  "lat": 30.9988828,
+  "lon": -94.8234068,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/00-royal-creek-road-block-44-lot-464a": {
+  "lat": 30.3657341,
+  "lon": -95.4033097,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/100-cr-2873": {
+  "lat": 30.3391626,
+  "lon": -95.0868601,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/100-happiness-hallow": {
+  "lat": 30.6175024,
+  "lon": -95.13429,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/100-n-richey": {
+  "lat": 29.7153115,
+  "lon": -95.2168337,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/100-wagon-trail-road": {
+  "lat": 27.9612261,
+  "lon": -97.8294736,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/1000-desdemona-blvd": {
+  "lat": 32.459899,
+  "lon": -98.679294,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1000-s-frio-st": {
+  "lat": 31.822669,
+  "lon": -99.426327,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1001-e-14th-st": {
+  "lat": 33.913775,
+  "lon": -102.324839,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1001-summit-ave": {
+  "lat": 32.0841769,
+  "lon": -96.4702627,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1004-harlem-st": {
+  "lat": 29.1874194,
+  "lon": -96.2756996,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1006-mesquite-st": {
+  "lat": 28.2941177,
+  "lon": -97.2721399,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/10101-rebel-rd": {
+  "lat": 29.858318,
+  "lon": -95.291701,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/10110-rosehaven-dr": {
+  "lat": 29.6491659,
+  "lon": -95.3761854,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/102-gt-bailey-ln": {
+  "lat": 33.4287138,
+  "lon": -96.5759174,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/10212-fertell-st": {
+  "lat": 31.9089357,
+  "lon": -106.4041871,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/103-aster-st": {
+  "lat": 30.6701307,
+  "lon": -98.4580026,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1033-yellow-hammer-st": {
+  "lat": 26.3852712,
+  "lon": -98.771667,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/10339-sleepy-hollow-rd": {
+  "lat": 32.7195101,
+  "lon": -96.2069046,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/104-us-hwy-77-s-bus": {
+  "lat": 27.5861441,
+  "lon": -97.7991636,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1048-cypress-lakes-cir": {
+  "lat": 30.3391626,
+  "lon": -95.0868601,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/105-newcastle-st": {
+  "lat": 28.8322121,
+  "lon": -96.9197507,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/10545-fm-521-rd": {
+  "lat": 29.0212971,
+  "lon": -95.5697048,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/106-n-harvard-st": {
+  "lat": 36.4016963,
+  "lon": -100.8129205,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/10723-cypresswood-dr": {
+  "lat": 29.9839124,
+  "lon": -95.5616421,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1073-county-road-6479": {
+  "lat": 30.0339031,
+  "lon": -94.8909193,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/108-mcgee": {
+  "lat": 33.468767,
+  "lon": -94.418675,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1101-columbia-st": {
+  "lat": 32.933197,
+  "lon": -99.785196,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1106-somercotes-ln": {
+  "lat": 29.7951716,
+  "lon": -95.1485407,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1112-pecan-st": {
+  "lat": 29.0328936,
+  "lon": -95.3974704,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1122-havner-ln": {
+  "lat": 29.8839015,
+  "lon": -95.374523,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/11222-dalebrook-dr": {
+  "lat": 29.881431,
+  "lon": -95.2870118,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/113-maple-st": {
+  "lat": 33.5921611,
+  "lon": -102.3671221,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1156-2nd-st": {
+  "lat": 29.0362775,
+  "lon": -95.3950571,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/11607-jutland-rd": {
+  "lat": 29.6343462,
+  "lon": -95.3482272,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/11807-s-youngwood-ln": {
+  "lat": 29.8308391,
+  "lon": -95.5709055,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/11926-greensbrook-forest-dr": {
+  "lat": 29.9227434,
+  "lon": -95.1809868,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/1200-san-marcos-st": {
+  "lat": 31.820987,
+  "lon": -99.418968,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1210-morris-street": {
+  "lat": 27.7852146,
+  "lon": -97.4034463,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/122-s-circle-dr": {
+  "lat": 29.2963838,
+  "lon": -95.2675465,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/1224-dotsonville-rd": {
+  "lat": 36.5517337,
+  "lon": -87.4301448,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/124-e-wheeler-street": {
+  "lat": 29.2413762,
+  "lon": -97.9602489,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1255-highway-6": {
+  "lat": 29.4252591,
+  "lon": -95.2326157,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/12711-sandpiper-rd": {
+  "lat": 29.1731279,
+  "lon": -95.445684,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/12807-redfern-dr": {
+  "lat": 29.6239217,
+  "lon": -95.3455939,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/12823-dairy-brook-dr": {
+  "lat": 29.681663,
+  "lon": -95.6066095,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1301-truman-st": {
+  "lat": 30.335403,
+  "lon": -95.076973,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/131-meadowlark-lot-300-n": {
+  "lat": 28.7189031,
+  "lon": -96.2750711,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/1314-6th-st-cr-595": {
+  "lat": 29.1731279,
+  "lon": -95.445684,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/13802-chuckwood-rd": {
+  "lat": 29.9232453,
+  "lon": -95.4484188,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/1391-private-rd-4032": {
+  "lat": 30.3600424,
+  "lon": -96.8340741,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/14018-state-highway-6": {
+  "lat": 29.4742469,
+  "lon": -95.4600081,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/1408-e-mimosa-avenue": {
+  "lat": 28.8264444,
+  "lon": -96.991371,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1409-cooley-dr": {
+  "lat": 35.6839937,
+  "lon": -101.3979896,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/14911-walters-rd": {
+  "lat": 29.9993626,
+  "lon": -95.4868802,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/1501-1502-little-john": {
+  "lat": 28.9648176,
+  "lon": -95.9480938,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/1501-ave-d": {
+  "lat": 31.0882466,
+  "lon": -97.3270295,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1501-azalea-st": {
+  "lat": 29.042824,
+  "lon": -95.717839,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1516-martin-luther-king-blvd": {
+  "lat": 31.7596391,
+  "lon": -95.655697,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1603-shannon-cir": {
+  "lat": 30.6726322,
+  "lon": -96.3471002,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1605-paloma-ave": {
+  "lat": 29.5854308,
+  "lon": -95.7731119,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/16215-morning-mist-dr": {
+  "lat": 30.0087482,
+  "lon": -95.4483444,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/1626-14th-st": {
+  "lat": 29.8875118,
+  "lon": -93.9363204,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/16260-state-highway-146-s": {
+  "lat": 30.7123011,
+  "lon": -94.9603431,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/16631-blackhawk-blvd": {
+  "lat": 29.5301863,
+  "lon": -95.1767884,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/16722-ave-b": {
+  "lat": 29.7897645,
+  "lon": -95.103575,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1703-e-2nd-st": {
+  "lat": 33.5964684,
+  "lon": -101.8182201,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/17230-imperial-valley-dr-18": {
+  "lat": 29.9247064,
+  "lon": -95.3981451,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/1751-combes-st": {
+  "lat": 26.1374828,
+  "lon": -97.6497548,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/18-riverboat-bend": {
+  "lat": 30.0339031,
+  "lon": -94.8909193,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/180-triangle-dr": {
+  "lat": 30.1176207,
+  "lon": -94.0239015,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/1815-kingwood-dr": {
+  "lat": 31.1167903,
+  "lon": -97.6706961,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/185-cr-4005": {
+  "lat": 30.7500255,
+  "lon": -94.4170903,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/1901-w-elliott-st": {
+  "lat": 32.75149,
+  "lon": -98.927951,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/192-private-road-1906": {
+  "lat": 30.0632877,
+  "lon": -94.7741437,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/2002-pannell": {
+  "lat": 29.7800512,
+  "lon": -95.3321643,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/201-cypress-lake-circle-ec2": {
+  "lat": 30.3391626,
+  "lon": -95.0868601,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/201-e-yaupon-oak": {
+  "lat": 30.8208858,
+  "lon": -95.108227,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/2018-kokomo": {
+  "lat": 34.2024549,
+  "lon": -101.717121,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/203-galveston-st": {
+  "lat": 32.2490394,
+  "lon": -101.4886265,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/203-n-bishop-st": {
+  "lat": 32.5457931,
+  "lon": -94.3776307,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/208-e-york": {
+  "lat": 29.0445568,
+  "lon": -96.5120357,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/2100-south-st": {
+  "lat": 32.538026,
+  "lon": -94.385883,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/211-lawnsdale-rd": {
+  "lat": 29.9791062,
+  "lon": -97.8547481,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/2112-15th-st": {
+  "lat": 29.3503774,
+  "lon": -99.151757,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/2120-el-paseo-st-307": {
+  "lat": 29.689702,
+  "lon": -95.4004193,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/2125-fairway-cr-595": {
+  "lat": 29.1731279,
+  "lon": -95.445684,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/214-santa-lorraine": {
+  "lat": 26.251627,
+  "lon": -97.825179,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/220-3rd-st": {
+  "lat": 29.0490097,
+  "lon": -95.5730348,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/221-chestnut-st": {
+  "lat": 36.2283498,
+  "lon": -88.823169,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/222-arcadian-dr": {
+  "lat": 29.9204508,
+  "lon": -95.0707151,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/224-calle-st": {
+  "lat": 27.9751777,
+  "lon": -97.4054442,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/2301-texas-st": {
+  "lat": 34.1544876,
+  "lon": -99.2901344,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/2313-herrington-rd": {
+  "lat": 30.093481,
+  "lon": -93.9001029,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/2326-boss-st": {
+  "lat": 29.3737575,
+  "lon": -94.9776148,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/238-county-road-3310-d": {
+  "lat": 30.3371149,
+  "lon": -95.0860477,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/2406-avenue-l": {
+  "lat": 33.8907774,
+  "lon": -98.5244884,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/241-e-melton-park-dr": {
+  "lat": 26.1634792,
+  "lon": -97.9087084,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/2480-pecos-st": {
+  "lat": 30.0808949,
+  "lon": -94.1234909,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/25-marlene-rd": {
+  "lat": 30.3391626,
+  "lon": -95.0868601,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/2500-washburn-road": {
+  "lat": 29.6716274,
+  "lon": -97.6566092,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/2605-e-19th-st": {
+  "lat": 33.5777093,
+  "lon": -101.809721,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/2635-waco-st": {
+  "lat": 29.7899018,
+  "lon": -94.9810923,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/2739-oyster-creek-bend": {
+  "lat": 28.9755897,
+  "lon": -95.3445401,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/281-county-road-2297": {
+  "lat": 30.3391626,
+  "lon": -95.0868601,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/2813-s-lake-dr": {
+  "lat": 33.4025415,
+  "lon": -94.0754097,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/2854-knotty-oaks-trail": {
+  "lat": 29.6327465,
+  "lon": -95.4182923,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/2890-hwy-1131": {
+  "lat": 30.1160431,
+  "lon": -94.0282374,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/3005-schuller-rd": {
+  "lat": 29.829909,
+  "lon": -95.3407717,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/3012-hogg-st": {
+  "lat": 30.0673963,
+  "lon": -93.7646863,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/302-jackson-st": {
+  "lat": 31.30508,
+  "lon": -96.6327425,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/3030-winding-way": {
+  "lat": 30.695758,
+  "lon": -95.5385769,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/304-e-york-st-rv-park": {
+  "lat": 29.0297271,
+  "lon": -96.4966615,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/3048-boards-ferry-road": {
+  "lat": 32.5105981,
+  "lon": -94.3388886,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/3104-highway-146-s": {
+  "lat": 29.6634884,
+  "lon": -95.0287319,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/3160-fannin-st": {
+  "lat": 30.0721631,
+  "lon": -94.1218007,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/3209-douglas-ave": {
+  "lat": 31.7861122,
+  "lon": -106.4567349,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/332-houston-st": {
+  "lat": 33.3359285,
+  "lon": -94.3271452,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/337-sw-avenue-b": {
+  "lat": 32.880893,
+  "lon": -100.1278042,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/3506-6th-st": {
+  "lat": 29.7844436,
+  "lon": -95.9470513,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/3625-mlk-blvd": {
+  "lat": 32.4662452,
+  "lon": -94.7304637,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/3670-private-road-4079": {
+  "lat": 32.775072,
+  "lon": -94.9907025,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/368-pine-ridge-dr-aka-362-pine-ridge": {
+  "lat": 30.3384676,
+  "lon": -95.0868786,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/374-county-road-131": {
+  "lat": 28.9784885,
+  "lon": -96.6536705,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/402-w-ave-d": {
+  "lat": 31.4535362,
+  "lon": -100.4407214,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/409-501-50th-st": {
+  "lat": 33.5482366,
+  "lon": -101.8291548,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/411-broadway-ave": {
+  "lat": 35.2026549,
+  "lon": -101.1075163,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/415-shipp-rd": {
+  "lat": 33.4670187,
+  "lon": -94.2765178,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/4223-tidewater-dr": {
+  "lat": 29.6335578,
+  "lon": -95.4412727,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/4301-gunter": {
+  "lat": 29.7686841,
+  "lon": -95.327583,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/447-edgemere-ave": {
+  "lat": 32.5034642,
+  "lon": -94.5771185,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/4571-elm-st": {
+  "lat": 29.7125763,
+  "lon": -95.4542862,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/466-trinity-rd": {
+  "lat": 30.1405912,
+  "lon": -94.809329,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/4722-winnetka-ave": {
+  "lat": 29.701098,
+  "lon": -95.3525339,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/4865-fm-1416": {
+  "lat": 30.7060821,
+  "lon": -93.6604177,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/4910-broadmark-ln": {
+  "lat": 30.0031889,
+  "lon": -95.3030132,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/500-w-ragland-blk": {
+  "lat": 27.5093366,
+  "lon": -97.8603215,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/501-ranier-rd": {
+  "lat": 31.4196005,
+  "lon": -97.73259,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/5031-ventura-ln": {
+  "lat": 29.7051734,
+  "lon": -95.335988,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/510-s-howison": {
+  "lat": 33.474133,
+  "lon": -95.2152522,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/5103-balkin-st": {
+  "lat": 29.6913668,
+  "lon": -95.3422081,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/516-harwell-st": {
+  "lat": 34.0875055,
+  "lon": -98.567095,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/52-unruh-dr": {
+  "lat": 30.3391626,
+  "lon": -95.0868601,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/522-n-illinois-st": {
+  "lat": 34.0321656,
+  "lon": -98.9128377,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/526-webb-st": {
+  "lat": 27.6725607,
+  "lon": -97.2782718,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/5407-victoria-dr": {
+  "lat": 29.4742469,
+  "lon": -95.4600081,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/5425-cypress-lakes-circle": {
+  "lat": 30.3391626,
+  "lon": -95.0868601,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/5625-antoine-dr-404": {
+  "lat": 29.8563937,
+  "lon": -95.4433605,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/5791-easthampton-dr": {
+  "lat": 29.9083325,
+  "lon": -95.3353213,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/5919-woodview-dr": {
+  "lat": 29.9500921,
+  "lon": -95.2693937,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/5932-n-fm-1486": {
+  "lat": 30.3972231,
+  "lon": -95.6468638,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/600-s-county-road-4882": {
+  "lat": 30.0339031,
+  "lon": -94.8909193,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/601-michalk-st": {
+  "lat": 30.612335,
+  "lon": -97.199481,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/611-fourth-st": {
+  "lat": 31.8176475,
+  "lon": -98.8007291,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/6111-mckinstry-blvd": {
+  "lat": 29.6574823,
+  "lon": -95.5016657,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/6202-bourbonais-dr": {
+  "lat": 27.6543555,
+  "lon": -97.3917325,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/6206-opal-st": {
+  "lat": 29.3892157,
+  "lon": -94.9805418,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/625-e-harris-ave": {
+  "lat": 31.465408,
+  "lon": -100.4262083,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/6405-conley-st": {
+  "lat": 29.6959284,
+  "lon": -95.3559459,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/645-yaupon-cove-dr": {
+  "lat": 30.8282082,
+  "lon": -95.1036054,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/65-laurel-ct": {
+  "lat": 30.3391626,
+  "lon": -95.0868601,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/6601-wanda-ln": {
+  "lat": 29.6786304,
+  "lon": -95.5073999,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/664-lopez-st": {
+  "lat": 27.9724438,
+  "lon": -97.4092374,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/6811-hanley-ln": {
+  "lat": 29.8770653,
+  "lon": -95.2877059,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/7024-n-taylor-rd": {
+  "lat": 26.271645,
+  "lon": -98.2672833,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/708-n-northaven-dr": {
+  "lat": 32.9509311,
+  "lon": -94.7109553,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/716-e-main-st": {
+  "lat": 31.6012464,
+  "lon": -94.6497075,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/7206-elwood-ct": {
+  "lat": 27.6853273,
+  "lon": -97.4011239,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/729-s-5th-st": {
+  "lat": 29.6657838,
+  "lon": -95.0193729,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/732-county-road-3709": {
+  "lat": 30.2302335,
+  "lon": -95.1612532,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/7334-marilyn-lane": {
+  "lat": 29.8660306,
+  "lon": -95.2973546,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/7623-carol-way": {
+  "lat": 32.0856882,
+  "lon": -95.4921088,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/7909-big-valley-dr": {
+  "lat": 26.1596237,
+  "lon": -97.9888655,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/793-lcr-740": {
+  "lat": 31.4105951,
+  "lon": -96.5677784,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/809-w-madison": {
+  "lat": 33.6124574,
+  "lon": -95.0557902,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/822-woodhue-st": {
+  "lat": 29.7886351,
+  "lon": -95.1274221,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/826-ave-c": {
+  "lat": 28.0290778,
+  "lon": -97.5074785,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/8303-furray-rd": {
+  "lat": 29.829912,
+  "lon": -95.2746,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/8305-easter-st": {
+  "lat": 29.8762146,
+  "lon": -95.4497462,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/833-rio-grande-ave": {
+  "lat": 29.9139828,
+  "lon": -93.927747,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/839-e-highland-blvd": {
+  "lat": 29.3963704,
+  "lon": -98.4668563,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/8401-mile-1-e": {
+  "lat": 26.1532584,
+  "lon": -97.9175222,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/855-15th-street-w": {
+  "lat": 29.5892989,
+  "lon": -98.9543904,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/8608-leander-st": {
+  "lat": 29.7125439,
+  "lon": -95.2721853,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/8909-fox-rd": {
+  "lat": 30.1377666,
+  "lon": -93.8576026,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/9222-lockwood-dr-12": {
+  "lat": 29.7512983,
+  "lon": -95.3239544,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/9222-lockwood-dr-13": {
+  "lat": 29.7515078,
+  "lon": -95.3237784,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/9329-caddo-rd": {
+  "lat": 29.8570871,
+  "lon": -95.252743,
+  "precision": "address"
+ },
+ "https://swehomes.com/property/998-cypress-lakes-cir": {
+  "lat": 30.3391626,
+  "lon": -95.0868601,
+  "precision": "zipcode"
+ },
+ "https://swehomes.com/property/county-road-203": {
+  "lat": 29.3097841,
+  "lon": -95.259062,
+  "precision": "address"
+ }
+}

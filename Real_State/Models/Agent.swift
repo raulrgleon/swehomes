@@ -2,7 +2,7 @@
 //  Agent.swift
 //  Real_State
 //
-//  Modelo del agente inmobiliario.
+//  Contacto comercial al que se dirigen llamadas y mensajes de una propiedad.
 //
 
 import Foundation
@@ -10,9 +10,8 @@ import Foundation
 struct Agent: Identifiable {
     let id: UUID
     var name: String
-    var rating: Double
-    var reviewCount: Int
     var company: String
     var phone: String
-    var email: String
+    var officeAddress: String
+    var website: String
 }

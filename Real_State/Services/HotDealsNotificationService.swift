@@ -28,19 +28,17 @@ final class HotDealsNotificationService {
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: ["hot-deals-morning", "hot-deals-afternoon"])
 
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.maximumFractionDigits = 0
-        formatter.locale = Locale(identifier: "en_US")
-
-        let deals = Array(PropertyRepository.shared.fetchProperties().prefix(3))
-        let sampleDeal = deals.first
-        let priceText = sampleDeal.map { formatter.string(from: NSNumber(value: $0.price)) ?? "" } ?? ""
-        let titleText = sampleDeal?.title ?? "Great property"
+        let bestDeal = PropertyRepository.shared.fetchProperties()
+            .filter { $0.status == .available && $0.listingType == .sale && $0.price > 0 }
+            .min { $0.price < $1.price }
 
         let morningContent = UNMutableNotificationContent()
         morningContent.title = "🔥 Hot Deals!"
-        morningContent.body = "Check out today's best deals. \(titleText) from \(priceText)"
+        if let deal = bestDeal {
+            morningContent.body = "Check out today's best deals. \(deal.city), \(deal.state) from \(deal.priceFormatted)"
+        } else {
+            morningContent.body = "Check out today's best deals on SWE Homes."
+        }
         morningContent.sound = .default
         morningContent.categoryIdentifier = hotDealsCategoryId
 
@@ -53,7 +51,7 @@ final class HotDealsNotificationService {
 
         let afternoonContent = UNMutableNotificationContent()
         afternoonContent.title = "🔥 Don't miss these Hot Deals!"
-        afternoonContent.body = "New properties just added. Open the app to see today's deals."
+        afternoonContent.body = "Owner-financed homes and land. Open the app to see today's deals."
         afternoonContent.sound = .default
         afternoonContent.categoryIdentifier = hotDealsCategoryId
 

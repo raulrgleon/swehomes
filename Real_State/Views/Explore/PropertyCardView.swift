@@ -21,12 +21,13 @@ struct PropertyCardView: View {
                 ZStack(alignment: .topTrailing) {
                     PropertyImageView(property: property, height: 160)
                     HStack(spacing: 6) {
-                        if property.isNewListing {
-                            tag("New", color: .green)
+                        if property.status != .available {
+                            tag(property.status.rawValue, color: property.status.isActive ? .orange : .gray)
                         }
-                        if property.isOpenHouse {
-                            tag("Open House", color: .orange)
+                        if property.hasOwnerFinancing && property.status.isActive {
+                            tag("Owner Financing", color: .green)
                         }
+                        Spacer(minLength: 0)
                     }
                     .padding(8)
                     Button(action: {
@@ -44,9 +45,16 @@ struct PropertyCardView: View {
                 }
 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text(property.priceFormatted)
-                        .font(.appHeadline)
-                        .foregroundStyle(.primary)
+                    HStack(alignment: .firstTextBaseline, spacing: 8) {
+                        Text(property.priceFormatted)
+                            .font(.appHeadline)
+                            .foregroundStyle(.primary)
+                        if let monthly = property.monthlyPayment, property.hasOwnerFinancing {
+                            Text("or \(Property.currency(monthly))/mo")
+                                .font(.appCaption)
+                                .foregroundStyle(AppTheme.accent)
+                        }
+                    }
                     if property.bedrooms > 0 || property.bathrooms > 0 || property.squareFeet > 0 {
                         HStack(spacing: 16) {
                             if property.bedrooms > 0 {

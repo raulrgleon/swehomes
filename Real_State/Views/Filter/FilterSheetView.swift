@@ -2,7 +2,7 @@
 //  FilterSheetView.swift
 //  Real_State
 //
-//  Sheet de filtros: precio, habitaciones, baños, toggles New/Open House.
+//  Sheet de filtros: precio, habitaciones, baños, financiación y disponibilidad.
 //
 
 import SwiftUI
@@ -100,13 +100,12 @@ struct FilterSheetView: View {
                         }
                     }
                     
-                    // Listing Type
-                    filterSection(title: "Show Only") {
+                    filterSection(title: "Availability") {
                         VStack(spacing: 16) {
-                            Toggle("New listings only", isOn: $viewModel.filters.newListingOnly)
+                            Toggle("Owner financing only", isOn: $viewModel.filters.ownerFinancingOnly)
                                 .tint(AppTheme.accent)
                             Divider()
-                            Toggle("Open house only", isOn: $viewModel.filters.openHouseOnly)
+                            Toggle("Include sold & unavailable", isOn: $viewModel.filters.includeInactive)
                                 .tint(AppTheme.accent)
                         }
                     }

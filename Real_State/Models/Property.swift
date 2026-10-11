@@ -23,6 +23,18 @@ enum PropertyCategory: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
+/// Estado del anuncio según swehomes.com (columna property_status del CSV)
+enum ListingStatus: String, CaseIterable {
+    case available = "Available"
+    case salePending = "Sale Pending"
+    case sold = "Sold"
+    case leased = "Leased"
+    case unavailable = "Unavailable"
+
+    /// Disponible o en proceso: se muestra por defecto en los listados
+    var isActive: Bool { self == .available || self == .salePending }
+}
+
 /// Tipo de propiedad (casa, apartamento, etc.)
 enum PropertyType: String, CaseIterable {
     case house = "House"
@@ -52,8 +64,14 @@ struct Property: Identifiable, Equatable, Hashable {
     var amenities: [String]
     var coordinate: CLLocationCoordinate2D
     var agentId: UUID
-    var isNewListing: Bool
-    var isOpenHouse: Bool
+    var status: ListingStatus
+    var zipcode: String
+    var lotSize: Int?
+    /// Financiación directa del propietario (enganche y cuota mensual publicados)
+    var downPayment: Int?
+    var monthlyPayment: Int?
+    /// Ficha original en swehomes.com
+    var sourceURL: String?
     /// Índice para gradiente/emoji de imagen fake (0...5). Si imageName no es nil, se usa la imagen real.
     var imageStyleIndex: Int
     /// Nombre del asset de imagen (ej: "PropertyHouse"). Si nil, se usa placeholder.
@@ -63,13 +81,21 @@ struct Property: Identifiable, Equatable, Hashable {
     /// URLs de imágenes remotas (para datos de CSV/API). Si presente, se usa AsyncImage.
     var imageURLs: [String]? = nil
 
-    var fullAddress: String { "\(address), \(city), \(state)" }
+    var fullAddress: String {
+        address.localizedCaseInsensitiveContains(city) ? address : "\(address), \(city), \(state)"
+    }
     var priceFormatted: String {
+        guard price > 0 else { return "Price on request" }
+        return listingType == .lease ? "\(Self.currency(price))/mo" : Self.currency(price)
+    }
+    var hasOwnerFinancing: Bool { (monthlyPayment ?? 0) > 0 }
+
+    static func currency(_ value: Int) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.maximumFractionDigits = 0
         formatter.locale = Locale(identifier: "en_US")
-        return formatter.string(from: NSNumber(value: price)) ?? "$\(price)"
+        return formatter.string(from: NSNumber(value: value)) ?? "$\(value)"
     }
 
     static func == (lhs: Property, rhs: Property) -> Bool {

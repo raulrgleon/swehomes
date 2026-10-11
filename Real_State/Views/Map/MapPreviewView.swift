@@ -15,14 +15,15 @@ struct MapPreviewView: View {
     @State private var position: MapCameraPosition = .automatic
     @State private var visibleRegion: MKCoordinateRegion?
 
-    /// 3D Flyover Camera for Houston Region
-    private var houstonCamera: MapCamera {
-        MapCamera(
-            centerCoordinate: defaultCenter,
-            distance: 2500,
-            heading: 45,
-            pitch: 65
-        )
+    /// Con una sola propiedad: vista 3D sobre ella. Con varias: encuadre automático de todos los pins.
+    private var initialPosition: MapCameraPosition {
+        if properties.count == 1, let only = properties.first {
+            return .camera(MapCamera(centerCoordinate: only.coordinate, distance: 1200, heading: 45, pitch: 60))
+        }
+        if properties.isEmpty {
+            return .region(MKCoordinateRegion(center: defaultCenter, span: MKCoordinateSpan(latitudeDelta: 0.5, longitudeDelta: 0.5)))
+        }
+        return .automatic
     }
 
     var body: some View {
@@ -47,7 +48,10 @@ struct MapPreviewView: View {
                 .stroke(Color(.systemGray5).opacity(0.5), lineWidth: 1)
         )
         .onAppear {
-            position = .camera(houstonCamera)
+            position = initialPosition
+        }
+        .onChange(of: properties.map(\.id)) { _, _ in
+            withAnimation { position = initialPosition }
         }
     }
 }

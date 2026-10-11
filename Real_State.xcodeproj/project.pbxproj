@@ -29,7 +29,6 @@
 		A1000020 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000020 /* OnboardingView.swift */; };
 		A1000021 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000021 /* LoginView.swift */; };
 		A1000022 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000022 /* AppTheme.swift */; };
-		A1000023 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000023 /* AuthService.swift */; };
 		A1000024 /* PropertyRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000024 /* PropertyRepository.swift */; };
 		A1000025 /* HotDealsNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000025 /* HotDealsNotificationService.swift */; };
 		A1000026 /* NotificationsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000026 /* NotificationsSettingsView.swift */; };
@@ -65,7 +64,6 @@
 		A2000020 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		A2000021 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		A2000022 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
-		A2000023 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		A2000024 /* PropertyRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyRepository.swift; sourceTree = "<group>"; };
 		A2000025 /* HotDealsNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotDealsNotificationService.swift; sourceTree = "<group>"; };
 		A2000026 /* NotificationsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsSettingsView.swift; sourceTree = "<group>"; };
@@ -217,7 +215,6 @@
 		A5000018 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				A2000023 /* AuthService.swift */,
 				A2000024 /* PropertyRepository.swift */,
 				A2000025 /* HotDealsNotificationService.swift */,
 			);
@@ -372,7 +369,6 @@
 				A1000020 /* OnboardingView.swift in Sources */,
 				A1000021 /* LoginView.swift in Sources */,
 				A1000022 /* AppTheme.swift in Sources */,
-				A1000023 /* AuthService.swift in Sources */,
 				A1000024 /* PropertyRepository.swift in Sources */,
 				A1000025 /* HotDealsNotificationService.swift in Sources */,
 				A1000026 /* NotificationsSettingsView.swift in Sources */,

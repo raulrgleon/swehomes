@@ -19,11 +19,11 @@ struct ExploreView: View {
     @State private var selectedProperty: Property?
     @State private var selectedPropertyIdForMap: UUID?
     @State private var isFloatingSearchVisible = true
-    @State private var isPushBannerVisible = true
     @State private var toastMessage: String?
     private let properties = PropertyRepository.shared.fetchProperties()
 
     var body: some View {
+        let filtered = viewModel.filteredProperties(properties)
         NavigationStack {
             ZStack(alignment: .bottom) {
                 ScrollView {
@@ -53,9 +53,9 @@ struct ExploreView: View {
                     }
                     .padding(.horizontal)
 
-                    featuredSection
-                    mapSection
-                    propertyListSection
+                    featuredSection(filtered)
+                    mapSection(filtered)
+                    propertyListSection(filtered)
                 }
                 .padding(.bottom, searchBarOnTop ? 100 : 24)
                 }
@@ -99,88 +99,6 @@ struct ExploreView: View {
                     }
                     .allowsHitTesting(true)
                 }
-
-                // V3: Push Notification Banner Mock
-                VStack {
-                    if isPushBannerVisible {
-                        Button {
-                            let generator = UIImpactFeedbackGenerator(style: .heavy)
-                            generator.impactOccurred()
-                            toastMessage = "Navigating to Price Drop Property..."
-                            withAnimation(.easeOut(duration: 0.3)) {
-                                isPushBannerVisible = false
-                            }
-                        } label: {
-                            HStack(spacing: 12) {
-                                Image(systemName: "bell.badge.fill")
-                                    .foregroundStyle(.red)
-                                    .font(.title2)
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text("Price dropped near you!")
-                                        .font(.subheadline).bold()
-                                    Text("A saved property in Midtown just dropped 10%.")
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
-                                }
-                                .multilineTextAlignment(.leading)
-                                Spacer()
-                                
-                                Button {
-                                    withAnimation(.easeOut(duration: 0.3)) {
-                                        isPushBannerVisible = false
-                                    }
-                                } label: {
-                                    Image(systemName: "xmark.circle.fill")
-                                        .foregroundStyle(.secondary)
-                                        .font(.title3)
-                                }
-                                .padding(.leading, 8)
-                            }
-                            .padding()
-                            .background(.ultraThinMaterial)
-                            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                            .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
-                            .padding(.horizontal)
-                            .padding(.top, 16)
-                        }
-                        .buttonStyle(ScaleButtonStyle())
-                        .onAppear {
-                            // Auto dismiss after 8 seconds
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
-                                withAnimation(.easeOut(duration: 0.3)) {
-                                    isPushBannerVisible = false
-                                }
-                            }
-                        }
-                    }
-                    Spacer()
-                }
-
-                // V3: AI Chat Assistant FAB
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        Button {
-                            let generator = UIImpactFeedbackGenerator(style: .medium)
-                            generator.impactOccurred()
-                            toastMessage = "Launching AI Realtor Assistant..."
-                        } label: {
-                            Image(systemName: "sparkles")
-                                .font(.title.weight(.semibold))
-                                .foregroundStyle(.white)
-                                .frame(width: 60, height: 60)
-                                .background(
-                                    LinearGradient(colors: [.purple, .indigo, .blue], startPoint: .topLeading, endPoint: .bottomTrailing)
-                                )
-                                .clipShape(Circle())
-                                .shadow(color: .purple.opacity(0.4), radius: 10, x: 0, y: 5)
-                        }
-                        .buttonStyle(ScaleButtonStyle())
-                        .padding(.trailing, 20)
-                        .padding(.bottom, searchBarOnTop ? 100 : 20)
-                    }
-                }
             }
             .navigationTitle("SWE Homes")
             .navigationBarTitleDisplayMode(.inline)
@@ -192,7 +110,7 @@ struct ExploreView: View {
                 PropertyDetailView(property: property)
             }
             .onChange(of: selectedPropertyIdForMap) { _, newId in
-                if let id = newId, let p = viewModel.filteredProperties(properties).first(where: { $0.id == id }) {
+                if let id = newId, let p = properties.first(where: { $0.id == id }) {
                     selectedProperty = p
                 }
             }
@@ -217,9 +135,9 @@ struct ExploreView: View {
         .padding(.vertical, 48)
     }
 
-    private var mapSection: some View {
+    private func mapSection(_ filtered: [Property]) -> some View {
         MapPreviewView(
-            properties: viewModel.filteredProperties(properties),
+            properties: filtered,
             selectedPropertyId: $selectedPropertyIdForMap,
             defaultCenter: MockData.houstonCenter
         )
@@ -228,9 +146,9 @@ struct ExploreView: View {
         .padding(.horizontal)
     }
 
-    private var featuredSection: some View {
+    private func featuredSection(_ filtered: [Property]) -> some View {
         HotDealsCarouselView(
-            properties: viewModel.hotDealsProperties(properties),
+            properties: viewModel.hotDealsProperties(from: filtered),
             onSelect: { property in
                 if searchBarOnTop, !viewModel.searchText.isEmpty {
                     appState.addSearchHistory(viewModel.searchText)
@@ -282,12 +200,19 @@ struct ExploreView: View {
         .buttonStyle(ScaleButtonStyle())
     }
 
-    private var propertyListSection: some View {
+    private func propertyListSection(_ filtered: [Property]) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("All Listings")
-                .font(.appTitle2)
-                .padding(.horizontal)
-            let filtered = viewModel.filteredProperties(properties)
+            HStack(alignment: .firstTextBaseline) {
+                Text("All Listings")
+                    .font(.appTitle2)
+                Spacer()
+                if !viewModel.isLoadingListings {
+                    Text("\(filtered.count) results")
+                        .font(.appCaption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .padding(.horizontal)
             if viewModel.isLoadingListings {
                 LazyVStack(spacing: 16) {
                     ForEach(0..<4, id: \.self) { _ in
@@ -379,6 +304,11 @@ private struct HotDealsCarouselView<Card: View>: View {
                         }
                         .onDisappear {
                             timer?.invalidate()
+                        }
+                        .onChange(of: properties.map(\.id)) { _, _ in
+                            currentIndex = 0
+                            proxy.scrollTo(0, anchor: .center)
+                            startCarousel(proxy: proxy)
                         }
                     }
                 }

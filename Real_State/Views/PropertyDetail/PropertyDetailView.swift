@@ -2,7 +2,8 @@
 //  PropertyDetailView.swift
 //  Real_State
 //
-//  Pantalla de detalle: hero, carrusel fake, precio, datos, descripción, amenities, agente, CTAs.
+//  Pantalla de detalle: carrusel de fotos, precio y estado, financiación, descripción,
+//  calculadora de hipoteca, mapa, contacto con SWE Homes y propiedades similares.
 //
 
 import SwiftUI
@@ -39,10 +40,16 @@ struct PropertyDetailView: View {
             VStack(alignment: .leading, spacing: 24) {
                 heroSectionWithParallax
                 priceAndStatsSection
+                if property.hasOwnerFinancing {
+                    ownerFinancingSection
+                }
                 descriptionSection
-                amenitiesSection
-                NeighborhoodStatsView()
-                MortgageCalculatorView(price: Double(property.price))
+                if !property.amenities.isEmpty {
+                    amenitiesSection
+                }
+                if property.listingType == .sale && property.price > 0 {
+                    MortgageCalculatorView(price: Double(property.price))
+                }
                 mapPreviewSection
                 ctaButtonsSection
                 if !similarProperties.isEmpty {
@@ -162,7 +169,9 @@ struct PropertyDetailView: View {
 
     @ViewBuilder
     private var pageIndicatorOverlay: some View {
-        if let names = property.imageNames, !names.isEmpty {
+        if let urls = property.imageURLs, !urls.isEmpty {
+            EmptyView()
+        } else if let names = property.imageNames, !names.isEmpty {
             pageIndicator(count: names.count)
         } else if property.imageName == nil {
             HStack(spacing: 6) {
@@ -183,10 +192,18 @@ struct PropertyDetailView: View {
             Text(property.fullAddress)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
-            Text("\(property.category.rawValue) • \(property.listingType.rawValue)")
-                .font(.caption)
-                .foregroundStyle(.tertiary)
-            if property.bedrooms > 0 || property.bathrooms > 0 || property.squareFeet > 0 {
+            HStack(spacing: 8) {
+                Text(property.status.rawValue)
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .background(statusColor, in: Capsule())
+                Text("\(property.category.rawValue) • \(property.listingType.rawValue)")
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+            }
+            if property.bedrooms > 0 || property.bathrooms > 0 || property.squareFeet > 0 || property.lotSize != nil {
                 HStack(spacing: 24) {
                     if property.bedrooms > 0 {
                         stat(icon: "bed.double.fill", value: "\(property.bedrooms)", label: "Beds")
@@ -195,7 +212,10 @@ struct PropertyDetailView: View {
                         stat(icon: "drop.fill", value: formatBaths(property.bathrooms), label: "Baths")
                     }
                     if property.squareFeet > 0 {
-                        stat(icon: "square.foot", value: "\(property.squareFeet)", label: "Sq ft")
+                        stat(icon: "square.foot", value: property.squareFeet.formatted(), label: "Sq ft")
+                    }
+                    if let lot = property.lotSize {
+                        stat(icon: "square.dashed", value: lot.formatted(), label: "Lot sq ft")
                     }
                 }
                 .padding(.top, 4)
@@ -203,6 +223,49 @@ struct PropertyDetailView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal)
+    }
+
+    private var statusColor: Color {
+        switch property.status {
+        case .available: return .green
+        case .salePending: return .orange
+        case .sold, .leased, .unavailable: return .gray
+        }
+    }
+
+    private var ownerFinancingSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Owner Financing")
+                .font(.appHeadline)
+            HStack(spacing: 12) {
+                if let down = property.downPayment {
+                    financingTile(title: "Down payment", value: Property.currency(down))
+                }
+                if let monthly = property.monthlyPayment {
+                    financingTile(title: "Monthly", value: "\(Property.currency(monthly))/mo")
+                }
+            }
+            Text("Published by SWE Homes. Final terms are confirmed with the sales team.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal)
+    }
+
+    private func financingTile(title: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text(title)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            Text(value)
+                .font(.title3.weight(.bold))
+                .foregroundStyle(AppTheme.accent)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+        .background(Color(.secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 
     private func stat(icon: String, value: String, label: String) -> some View {
@@ -296,7 +359,7 @@ struct PropertyDetailView: View {
             Text("Location")
                 .font(.appHeadline)
                 .padding(.horizontal)
-            MapPreviewView(properties: [property], selectedPropertyId: .constant(property.id))
+            MapPreviewView(properties: [property], selectedPropertyId: .constant(property.id), defaultCenter: property.coordinate)
                 .frame(height: 200)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
                 .padding(.horizontal)
@@ -317,119 +380,82 @@ struct PropertyDetailView: View {
         VStack(alignment: .leading, spacing: 16) {
             if let agent = agent {
                 HStack(spacing: 12) {
+                    Image("SWEHomesLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 48, height: 48)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
                     VStack(alignment: .leading, spacing: 2) {
                         Text(agent.name)
                             .font(.headline)
-                        HStack(spacing: 4) {
-                            Image(systemName: "star.fill")
-                                .font(.caption2)
-                                .foregroundStyle(.yellow)
-                            Text(String(format: "%.1f", agent.rating))
-                                .font(.subheadline)
-                        }
-                        Text(agent.company)
+                        Text(agent.phone)
+                            .font(.subheadline)
+                        Text(agent.officeAddress)
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
                     Spacer(minLength: 0)
-                    
-                    // V3: Agent Stories Mock
-                    Button {
-                        toastMessage = "Playing Realtor Stories..."
-                    } label: {
-                        ZStack {
-                            Circle()
-                                .stroke(
-                                    LinearGradient(colors: [.purple, .red, .orange], startPoint: .topLeading, endPoint: .bottomTrailing),
-                                    lineWidth: 3
-                                )
-                                .frame(width: 54, height: 54)
-                            Text("👤")
-                                .font(.system(size: 32))
-                                .frame(width: 46, height: 46)
-                                .background(Color(.tertiarySystemBackground))
-                                .clipShape(Circle())
-                        }
-                    }
-                    .buttonStyle(ScaleButtonStyle())
                 }
                 .padding()
                 .background(Color(.secondarySystemBackground))
                 .clipShape(RoundedRectangle(cornerRadius: 12))
+
+                HStack(spacing: 12) {
+                    if let url = URL(string: "tel:\(agent.phone.filter(\.isNumber))") {
+                        Button {
+                            UIApplication.shared.open(url)
+                        } label: {
+                            Label("Call", systemImage: "phone.fill")
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 14)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .tint(AppTheme.accent)
+                    }
+                    Button {
+                        openMessage(agent: agent, body: "Hi, I'm interested in \(property.fullAddress) (\(property.priceFormatted)). Could you send me more information?")
+                    } label: {
+                        Label("Text", systemImage: "message.fill")
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(AppTheme.accent)
+                }
+
+                if property.status.isActive {
+                    Button {
+                        UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+                        openMessage(agent: agent, body: "Hi, I'd like to schedule a tour of \(property.fullAddress). What times are available?")
+                    } label: {
+                        Label("Request a Tour", systemImage: "calendar.badge.clock")
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                    }
+                    .buttonStyle(.bordered)
+                }
             }
 
-            if let agent = agent, let url = URL(string: "tel:\(agent.phone.filter(\.isNumber))") {
-                Button {
-                    UIApplication.shared.open(url)
-                } label: {
-                    Label("Call Agent", systemImage: "phone.fill")
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 14)
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(AppTheme.accent)
-            }
-            if let agent = agent {
-                Button {
-                    openMessage(agent: agent)
-                    toastMessage = "Opening Messages..."
-                } label: {
-                    Label("Contact Agent", systemImage: "message.fill")
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 14)
-                }
-                .buttonStyle(.borderedProminent)
-                .tint(AppTheme.accent)
-            }
             HStack(spacing: 12) {
                 Button {
-                    toastMessage = "Initializing AR Decorator..."
+                    shareProperty()
                 } label: {
-                    Label("AR Decor", systemImage: "arkit")
+                    Label("Share", systemImage: "square.and.arrow.up")
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
                 }
                 .buttonStyle(.bordered)
-                
-                Button {
-                    let generator = UIImpactFeedbackGenerator(style: .heavy)
-                    generator.impactOccurred()
-                    toastMessage = "Vault Unlocked via FaceID"
-                } label: {
-                    Label("Secure Vault", systemImage: "faceid")
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 14)
+
+                if let source = property.sourceURL, let url = URL(string: source) {
+                    Link(destination: url) {
+                        Label("swehomes.com", systemImage: "safari")
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                    }
+                    .buttonStyle(.bordered)
                 }
-                .buttonStyle(.bordered)
             }
-            
-            Button {
-                shareProperty()
-                toastMessage = "Property shared"
-            } label: {
-                Label("Share Property", systemImage: "square.and.arrow.up")
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 14)
-            }
-            .buttonStyle(.bordered)
-            
-            // Dynamic Action Button (Simulated Dynamic Island interaction trigger)
-            Button {
-                let generator = UIImpactFeedbackGenerator(style: .rigid)
-                generator.impactOccurred()
-                toastMessage = "Tour Scheduled! Active in Dynamic Island."
-            } label: {
-                HStack {
-                    Image(systemName: "calendar.badge.clock")
-                    Text("Schedule Tour")
-                        .fontWeight(.bold)
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 16)
-            }
-            .buttonStyle(.borderedProminent)
-            .tint(AppTheme.accent)
-            .foregroundStyle(Color(.black))
         }
         .padding(.horizontal)
     }
@@ -445,21 +471,30 @@ struct PropertyDetailView: View {
         .padding(.bottom, 12)
     }
 
-    private func openMessage(agent: Agent) {
-        let body = "Hi \(agent.name), I'm interested in \(property.title) (\(property.fullAddress)). Could you provide more information?"
+    private func openMessage(agent: Agent, body: String) {
         let phone = agent.phone.filter(\.isNumber)
         if MFMessageComposeViewController.canSendText() {
             let vc = MFMessageComposeViewController()
             vc.recipients = [phone]
             vc.body = body
             vc.messageComposeDelegate = MessageComposeDelegate.shared
-            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-               let root = windowScene.windows.first?.rootViewController {
-                root.present(vc, animated: true)
-            }
+            topViewController()?.present(vc, animated: true)
         } else if let url = URL(string: "sms:\(phone)") {
             UIApplication.shared.open(url)
         }
+    }
+
+    private func topViewController() -> UIViewController? {
+        let root = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap(\.windows)
+            .first { $0.isKeyWindow }?
+            .rootViewController
+        var top = root
+        while let presented = top?.presentedViewController {
+            top = presented
+        }
+        return top
     }
 
     private func openInMaps() {
@@ -470,12 +505,12 @@ struct PropertyDetailView: View {
     }
 
     private func shareProperty() {
-        let text = "\(property.title) - \(property.priceFormatted)\n\(property.fullAddress)"
-        let av = UIActivityViewController(activityItems: [text], applicationActivities: nil)
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let root = windowScene.windows.first?.rootViewController {
-            root.present(av, animated: true)
+        var items: [Any] = ["\(property.fullAddress) - \(property.priceFormatted)"]
+        if let source = property.sourceURL, let url = URL(string: source) {
+            items.append(url)
         }
+        let av = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        topViewController()?.present(av, animated: true)
     }
 
     private var similarPropertiesSection: some View {
@@ -536,56 +571,6 @@ private final class MessageComposeDelegate: NSObject, MFMessageComposeViewContro
     }
 }
 
-// MARK: - Neighborhood Stats View
-struct NeighborhoodStatsView: View {
-    let walkScore = Int.random(in: 60...98)
-    let transitScore = Int.random(in: 50...95)
-    let bikeScore = Int.random(in: 40...90)
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("Neighborhood")
-                .font(.appHeadline)
-            
-            HStack(spacing: 16) {
-                scoreBadge(title: "Walk", score: walkScore, icon: "figure.walk")
-                scoreBadge(title: "Transit", score: transitScore, icon: "bus")
-                scoreBadge(title: "Bike", score: bikeScore, icon: "bicycle")
-            }
-        }
-        .padding(.horizontal)
-    }
-    
-    private func scoreBadge(title: String, score: Int, icon: String) -> some View {
-        VStack(spacing: 8) {
-            ZStack {
-                Circle()
-                    .stroke(AppTheme.accent.opacity(0.2), lineWidth: 4)
-                Circle()
-                    .trim(from: 0, to: CGFloat(score) / 100.0)
-                    .stroke(AppTheme.accent, style: StrokeStyle(lineWidth: 4, lineCap: .round))
-                    .rotationEffect(.degrees(-90))
-                
-                Image(systemName: icon)
-                    .foregroundStyle(AppTheme.accent)
-            }
-            .frame(width: 48, height: 48)
-            
-            VStack(spacing: 2) {
-                Text("\(score)")
-                    .font(.headline)
-                Text(title)
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-            }
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 12)
-        .background(Color(.secondarySystemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-    }
-}
-
 // MARK: - Mortgage Calculator View
 struct MortgageCalculatorView: View {
     let price: Double
@@ -608,6 +593,13 @@ struct MortgageCalculatorView: View {
         let factor = pow(1.0 + r, n)
         return loanAmount * (r * factor) / (factor - 1.0)
     }
+
+    /// Proporción del total pagado que corresponde a capital (el resto son intereses)
+    var principalShare: Double {
+        let totalPaid = monthlyPayment * Double(years * 12)
+        guard totalPaid > 0 else { return 1 }
+        return min(1, loanAmount / totalPaid)
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -627,29 +619,24 @@ struct MortgageCalculatorView: View {
                     }
                     Spacer()
                     
-                    // V3: Intelligent Doughnut Chart Mock
                     ZStack {
                         Circle()
-                            .stroke(AppTheme.accent.opacity(0.2), lineWidth: 8)
+                            .stroke(AppTheme.hotOrange, lineWidth: 8)
                         Circle()
-                            .trim(from: 0, to: 0.65) // Mock Principal Ratio
-                            .stroke(AppTheme.accent, style: StrokeStyle(lineWidth: 8, lineCap: .round))
+                            .trim(from: 0, to: principalShare)
+                            .stroke(AppTheme.accent, style: StrokeStyle(lineWidth: 8, lineCap: .butt))
                             .rotationEffect(.degrees(-90))
-                        Circle()
-                            .trim(from: 0.68, to: 1.0) // Mock Interest Ratio
-                            .stroke(AppTheme.hotOrange, style: StrokeStyle(lineWidth: 8, lineCap: .round))
-                            .rotationEffect(.degrees(-90))
-                        
                         VStack(spacing: 0) {
-                            Text("65%")
+                            Text("\(Int((principalShare * 100).rounded()))%")
                                 .font(.caption2).bold()
                                 .foregroundStyle(AppTheme.accent)
-                            Text("35%")
+                            Text("\(100 - Int((principalShare * 100).rounded()))%")
                                 .font(.system(size: 8)).bold()
                                 .foregroundStyle(AppTheme.hotOrange)
                         }
                     }
                     .frame(width: 48, height: 48)
+                    .accessibilityLabel("Principal versus interest over the loan")
                 }
                 
                 VStack(spacing: 8) {

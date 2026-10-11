@@ -9,13 +9,14 @@ import Foundation
 import Combine
 
 /// Filtros aplicables en el sheet de filtros
-struct PropertyFilters {
+struct PropertyFilters: Equatable {
     var minPrice: Int = 0
     var maxPrice: Int = 5_000_000
     var minBedrooms: Int = 0
     var minBathrooms: Double = 0
-    var newListingOnly: Bool = false
-    var openHouseOnly: Bool = false
+    var ownerFinancingOnly: Bool = false
+    /// Incluir vendidas, arrendadas y no disponibles
+    var includeInactive: Bool = false
 }
 
 final class ExploreViewModel: ObservableObject {
@@ -26,37 +27,32 @@ final class ExploreViewModel: ObservableObject {
     @Published var isFilterSheetPresented: Bool = false
     @Published var isLoadingListings: Bool = true
 
-    /// Filtra propiedades por categoría, tipo (Lease/Sale), búsqueda y filtros
+    /// Filtra propiedades por categoría, tipo (Lease/Sale), búsqueda, estado y filtros
     func filteredProperties(_ properties: [Property]) -> [Property] {
-        var result = properties.filter { $0.category == selectedCategory && $0.listingType == selectedListingType }
-
-        if !searchText.isEmpty {
-            let query = searchText.lowercased()
-            result = result.filter {
-                $0.title.lowercased().contains(query) ||
-                $0.address.lowercased().contains(query) ||
-                $0.city.lowercased().contains(query) ||
-                $0.state.lowercased().contains(query)
+        let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        return properties.filter { p in
+            guard p.category == selectedCategory, p.listingType == selectedListingType else { return false }
+            guard filters.includeInactive || p.status.isActive else { return false }
+            if !query.isEmpty {
+                let matches = [p.title, p.address, p.city, p.state, p.zipcode]
+                    .contains { $0.lowercased().contains(query) }
+                guard matches else { return false }
             }
+            guard p.price >= filters.minPrice, p.price <= filters.maxPrice else { return false }
+            guard p.bedrooms >= filters.minBedrooms, p.bathrooms >= filters.minBathrooms else { return false }
+            if filters.ownerFinancingOnly && !p.hasOwnerFinancing { return false }
+            return true
         }
-
-        result = result.filter { $0.price >= filters.minPrice && $0.price <= filters.maxPrice }
-        result = result.filter { $0.bedrooms >= filters.minBedrooms }
-        result = result.filter { $0.bathrooms >= filters.minBathrooms }
-        if filters.newListingOnly { result = result.filter { $0.isNewListing } }
-        if filters.openHouseOnly { result = result.filter { $0.isOpenHouse } }
-
-        return result
     }
 
-    /// Propiedades destacadas (primeras 3 del resultado filtrado)
-    func featuredProperties(_ properties: [Property]) -> [Property] {
-        Array(filteredProperties(properties).prefix(3))
-    }
-
-    /// Hot Deals para el carrusel (5 de cada tipo: Res, Com, Land)
-    func hotDealsProperties(_ properties: [Property]) -> [Property] {
-        Array(filteredProperties(properties).prefix(15))
+    /// Hot Deals para el carrusel: las disponibles más económicas del filtro actual
+    func hotDealsProperties(from filtered: [Property]) -> [Property] {
+        Array(
+            filtered
+                .filter { $0.status == .available && $0.price > 0 }
+                .sorted { $0.price < $1.price }
+                .prefix(15)
+        )
     }
 
     /// Simula carga inicial (para skeleton)

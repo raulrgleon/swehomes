@@ -10,7 +10,6 @@ import Foundation
 struct UserProfile {
     var name: String
     var avatarEmoji: String
-    var recentlySearchedLocations: [String]
 }
 
 struct SettingsItem: Identifiable {

@@ -15,16 +15,17 @@ struct ProfileView: View {
     private let profile = MockData.userProfile
     private let settings = MockData.settingsItems
     
-    private var recentSearches: [String] {
-        !appState.searchHistory.isEmpty ? appState.searchHistory : profile.recentlySearchedLocations
-    }
+    private var recentSearches: [String] { appState.searchHistory }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 24) {
                     headerSection
-                    recentSearchesSection
+                    if !recentSearches.isEmpty {
+                        recentSearchesSection
+                    }
+                    contactSection
                     settingsSection
                     logoutSection
                 }
@@ -90,6 +91,51 @@ struct ProfileView: View {
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
         .padding(.horizontal)
+    }
+
+    private var contactSection: some View {
+        let office = MockData.officeContact
+        return VStack(alignment: .leading, spacing: 12) {
+            Text("Contact SWE Homes")
+                .font(.appHeadline)
+                .padding(.horizontal)
+            VStack(spacing: 0) {
+                if let tel = URL(string: "tel:\(office.phone.filter(\.isNumber))") {
+                    contactRow(icon: "phone.fill", title: office.phone, url: tel)
+                    Divider().padding(.leading, 44)
+                }
+                if let site = URL(string: office.website) {
+                    contactRow(icon: "safari.fill", title: "swehomes.com", url: site)
+                    Divider().padding(.leading, 44)
+                }
+                if let maps = URL(string: "maps://?q=\(office.officeAddress.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")") {
+                    contactRow(icon: "mappin.and.ellipse", title: office.officeAddress, url: maps)
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+        .padding(.horizontal)
+    }
+
+    private func contactRow(icon: String, title: String, url: URL) -> some View {
+        Link(destination: url) {
+            HStack {
+                Image(systemName: icon)
+                    .foregroundStyle(AppTheme.accent)
+                    .frame(width: 28, alignment: .center)
+                Text(title)
+                    .font(.subheadline)
+                    .foregroundStyle(.primary)
+                    .multilineTextAlignment(.leading)
+                Spacer()
+                Image(systemName: "arrow.up.right")
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .background(Color(.secondarySystemGroupedBackground))
+        }
     }
 
     private var settingsSection: some View {
